@@ -13,7 +13,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.numpyninja.lms")
-
 @EnableSwagger2
 @Configuration
 public class LmsServicesApplication {
