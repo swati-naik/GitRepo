@@ -22,16 +22,16 @@ public class UserController {
 	//UserServices userServices;
 	
 	
-	private UserMapper mapstructMapper;
+	private UserMapper userMapper;
 	private UserServices userServices;
 	
 	@Autowired
     public UserController(
-            UserMapper mapstructMapper,
+            UserMapper userMapper,
             UserServices userServices
       
     ) {
-        this.mapstructMapper = mapstructMapper;
+        this.userMapper = userMapper;
         this.userServices = userServices;
  
     }
@@ -46,8 +46,8 @@ public class UserController {
 	public UserDto getAllUsersById(@PathVariable String id) {
 		Optional<User> userbyId = userServices.getAllUsersById(id);
 		System.out.println("userbyId " + userbyId);
-		UserDto userDto = mapstructMapper.userDto(userbyId.get());
-		System.out.println("userDto " + userDto);;
+		UserDto userDto = userMapper.userDto(userbyId.get());
+		System.out.println("userDto " + userDto.getUserId());
 		return userDto;
 	}
 }
