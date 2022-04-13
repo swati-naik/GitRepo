@@ -50,4 +50,14 @@ public class UserController {
 		System.out.println("userDto " + userDto.getUserId());
 		return userDto;
 	}
+	
+    @GetMapping("/users/roles/{rolename}")
+    protected List<?> getAllRoles(@PathVariable(value="rolename")String roleName) {
+    	return userMapper.userDtos( userServices.getAllUsersByRole(roleName) );
+    }
+    
+    @GetMapping("/users/programs/{programid}")
+    protected List<?> getUsersForProgram(@PathVariable(value="programid")Long programId) {
+        return userServices.getUsersForProgram(programId);
+    }
 }
