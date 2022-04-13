@@ -34,19 +34,22 @@ public class ProgBatchServices {
         return progBatchRepository.findByBatchName(name);
     }
 
-    // create new  Batch under Program
+    // create new  Batch under Program    // LMSPhase2 changes
     public ProgBatchEntity createBatch(ProgBatchEntity newProgrambatch) {
-        return progBatchRepository.save(newProgrambatch);
+    	//Program program = programRepository.findById( programId ).orElseThrow( ()->new RuntimeException("ProgramId:" + programId + " not available; Please give an existing ProgramId" ));
+    	//programServices.findProgram(null)
+    	return progBatchRepository.save(newProgrambatch);
     }
 
-    //Update new Batch
-    public ProgBatchEntity updateBatch(ProgBatchEntity updatedProgram, @PathVariable Long id) {
+    //Update new Batch                   // LMSPhase2 changes
+    public ProgBatchEntity updateBatch(ProgBatchEntity updatedProgram, Long id) {
         return progBatchRepository.save(updatedProgram);
     }
 
-    // get Batches by Program ID
-    public List<ProgBatchEntity> findBatchByProgramId(Long programid) {
-        return progBatchRepository.findAll(ProgBatchRepository.hasProgramId(programid));
+    // get Batches by Program ID        // LMSPhase2 changes
+    public List<ProgBatchEntity> findBatchByProgramId(Integer programid) {
+        //return progBatchRepository.findAll(ProgBatchRepository.hasProgramId(programid));
+    	return progBatchRepository.findAllByProgramProgramId(programid);      // query needs to be checked whether its working
     }
 
     public void deleteProgramBatch(Integer id) {

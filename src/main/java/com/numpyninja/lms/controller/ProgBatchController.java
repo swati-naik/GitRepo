@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,9 +45,12 @@ public class ProgBatchController extends BaseController {
 
     @Override
     protected Map<String, Object> addUpdateFields(Map<String, Object> data){
-        ProgramEntity programEntity = programServices.findProgram((Long)data.get("batchProgramId")).get();
-        data.put("batchProgramId", programEntity.getProgramId() + " - " + programEntity.getProgramName());
-        return data;
+    	// LMSPhase2 changes
+    	LinkedHashMap map = (LinkedHashMap)data.get("program");   
+        //ProgramEntity programEntity = programServices.findProgram((Long)data.get("batchProgramId")).get();
+        //data.put("batchProgramId", programEntity.getProgramId() + " - " + programEntity.getProgramName());data.put("batchProgramId", programEntity.getProgramId() + " - " + programEntity.getProgramName());
+    	data.put("batchProgramId", map.get("programId") + " - " + map.get("programName"));
+    	return data;
     }
 
     private void populateDropdowns(Model model){
