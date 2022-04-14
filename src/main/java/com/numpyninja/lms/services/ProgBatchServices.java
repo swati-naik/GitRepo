@@ -1,7 +1,10 @@
 package com.numpyninja.lms.services;
 
 import com.numpyninja.lms.entity.ProgBatchEntity;
+import com.numpyninja.lms.entity.ProgramEntity;
 import com.numpyninja.lms.repository.ProgBatchRepository;
+import com.numpyninja.lms.repository.ProgramRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +17,9 @@ public class ProgBatchServices {
     @Autowired
     private ProgBatchRepository progBatchRepository;
 
+    @Autowired
+    private ProgramRepository programRepository;
+    
     // method for All batch
     public List<ProgBatchEntity> getAllBatches() {
         return progBatchRepository.findAll();
@@ -35,15 +41,17 @@ public class ProgBatchServices {
     }
 
     // create new  Batch under Program    // LMSPhase2 changes
-    public ProgBatchEntity createBatch(ProgBatchEntity newProgrambatch) {
-    	//Program program = programRepository.findById( programId ).orElseThrow( ()->new RuntimeException("ProgramId:" + programId + " not available; Please give an existing ProgramId" ));
-    	//programServices.findProgram(null)
+    public ProgBatchEntity createBatch(ProgBatchEntity newProgrambatch, Long programId) {
+    	ProgramEntity program = programRepository.findById( programId ).orElseThrow( ()->new RuntimeException("ProgramId:" + programId + " not available; Please give an existing ProgramId" ));
+    	newProgrambatch.setProgram(program);
     	return progBatchRepository.save(newProgrambatch);
     }
 
     //Update new Batch                   // LMSPhase2 changes
     public ProgBatchEntity updateBatch(ProgBatchEntity updatedProgram, Long id) {
-        return progBatchRepository.save(updatedProgram);
+    	ProgramEntity program = programRepository.findById( id ).orElseThrow( ()->new RuntimeException("ProgramId:" + id + " not available; Please give an existing ProgramId" ));
+    	updatedProgram.setProgram(program);
+    	return progBatchRepository.save(updatedProgram);
     }
 
     // get Batches by Program ID        // LMSPhase2 changes

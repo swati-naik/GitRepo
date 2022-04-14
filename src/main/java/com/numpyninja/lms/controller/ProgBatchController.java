@@ -79,7 +79,7 @@ public class ProgBatchController extends BaseController {
             model.addAttribute("model", batch);
             return "LmsAddBatch";
         }
-        batch = batchService.createBatch(batch);
+        batch = batchService.createBatch(batch, batch.getProgram().getProgramId());
         redirectAttributes.addFlashAttribute("message", "Batch " + batch.getBatchName() + " with Id: " + batch.getBatchId() + " created Successfully!");
         return "redirect:/programbatch";
     }
