@@ -1,6 +1,6 @@
 package com.numpyninja.lms.controller;
 
-import com.numpyninja.lms.entity.ClassEntity;
+/*import com.numpyninja.lms.entity.ClassEntity;
 import com.numpyninja.lms.entity.ProgBatchEntity;
 import com.numpyninja.lms.entity.ProgramEntity;
 import com.numpyninja.lms.services.ClassServices;
@@ -100,4 +100,4 @@ public class ClassController extends BaseController {
         redirectAttributes.addFlashAttribute("message", "Class with Id: " + id + " deleted Successfully!");
         return "redirect:/class";
     }
-}
+}*/

@@ -2,7 +2,8 @@ package com.numpyninja.lms.controller;
 
 import com.numpyninja.lms.entity.AttendanceEntity;
 import com.numpyninja.lms.services.AttendanceServices;
-import com.numpyninja.lms.services.ClassServices;
+import com.numpyninja.lms.services.ClassManagementService;
+//import com.numpyninja.lms.services.ClassServices;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class AttendanceController extends BaseController {
     private AttendanceServices attendanceServices;
 
     @Autowired
-    private ClassServices classServices;
+    private ClassManagementService classServices;
 
     public AttendanceController() {
         super("attendance");
@@ -40,7 +41,7 @@ public class AttendanceController extends BaseController {
     }
 
     private void populateDropdowns(Model model) {
-        model.addAttribute("class", classServices.getAllClasss());
+      //  model.addAttribute("class", classServices.getAllClasss());
     }
 
     @GetMapping("/addView")

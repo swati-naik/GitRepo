@@ -1,6 +1,6 @@
 package com.numpyninja.lms.repository;
 
-import com.numpyninja.lms.entity.ClassEntity;
+/*import com.numpyninja.lms.entity.ClassEntity;
 import com.numpyninja.lms.entity.ProgBatchEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +15,4 @@ public interface ClassRepository extends JpaRepository<ClassEntity, Long>, JpaSp
 
     List<ClassEntity> findByClassTopicContainingIgnoreCaseOrderByClassTopicAsc(String classTopic);
 
-}
+}*/

@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.numpyninja.lms.dto.SkillMasterDto;
 import com.numpyninja.lms.exception.DuplicateResourceFound;
 
 import com.numpyninja.lms.exception.ResourceNotFoundException;
-import com.numpyninja.lms.model.SkillMasterModel;
+
 import com.numpyninja.lms.services.SkillMasterService;
 
 @RestController
@@ -35,9 +36,9 @@ public class SkillMasterController {
 	//createSkills
 	@PostMapping(path="/SaveSkillMaster",consumes = "application/json", produces = "application/json")  
 	@ResponseBody
-	private ResponseEntity<?> createAndSaveProgram(@Valid @RequestBody SkillMasterModel newSkillMaster)throws  DuplicateResourceFound
+	private ResponseEntity<?> createAndSaveProgram(@Valid @RequestBody SkillMasterDto newSkillMaster)throws  DuplicateResourceFound
 	{  
-	SkillMasterModel savedSkillMasterDTO = skillMasterService.createAndSaveSkillMaster(newSkillMaster);
+		SkillMasterDto savedSkillMasterDTO = skillMasterService.createAndSaveSkillMaster(newSkillMaster);
 	return ResponseEntity.status(HttpStatus.CREATED).body(savedSkillMasterDTO);  
 	} 
 	
@@ -46,7 +47,7 @@ public class SkillMasterController {
 	private ResponseEntity<?> getAllSkillsMaster()  throws ResourceNotFoundException
 	{ 
 		System.out.println("in getall SkillsMaster");
-		List<SkillMasterModel> SkillsList = skillMasterService.getAllSkillMaster();
+		List<SkillMasterDto> SkillsList = skillMasterService.getAllSkillMaster();
 		return ResponseEntity.ok(SkillsList);  
 	}  
 	
@@ -55,14 +56,14 @@ public class SkillMasterController {
 	@ResponseBody
 	private ResponseEntity <?> getOneSkillByName(@PathVariable("skillMasterName") @NotBlank @Positive String skillName)throws ResourceNotFoundException
 	{  
-		List<SkillMasterModel> skillmasterModelList= skillMasterService.getSkillMasterByName(skillName);
+		List<SkillMasterDto> skillmasterModelList= skillMasterService.getSkillMasterByName(skillName);
 	return ResponseEntity.ok(skillmasterModelList);
 	}  
 	
 	//UpdateSkillById
 	@PutMapping(path="updateSkills/{skillId}", consumes = "application/json", produces = "application/json")  
 	@ResponseBody
-	private ResponseEntity <SkillMasterModel> updateProgramById(@PathVariable @NotBlank @Positive Long skillId ,@Valid @RequestBody SkillMasterModel modifySkillMaster) throws ResourceNotFoundException
+	private ResponseEntity <SkillMasterDto> updateProgramById(@PathVariable @NotBlank @Positive Long skillId ,@Valid @RequestBody SkillMasterDto modifySkillMaster) throws ResourceNotFoundException
 	{  
 	return ResponseEntity.ok(skillMasterService.updateSkillMasterById(skillId,modifySkillMaster));
 	} 

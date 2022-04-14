@@ -1,4 +1,4 @@
-package com.numpyninja.lms.entity;
+/*package com.numpyninja.lms.entity;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,4 +30,4 @@ public class ClassEntity {
     String classComments;
     String classNotes;
     String classRecordingPath;
-}
+}*/

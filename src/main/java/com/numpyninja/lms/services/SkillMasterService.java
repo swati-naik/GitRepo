@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import com.numpyninja.lms.exception.ResourceNotFoundException;
 import com.numpyninja.lms.mappers.SkillMasterMapper;
 import com.numpyninja.lms.exception.DuplicateResourceFound;
+import com.numpyninja.lms.dto.SkillMasterDto;
 import com.numpyninja.lms.entity.SkillMaster;
-import com.numpyninja.lms.model.SkillMasterModel;
+
 import com.numpyninja.lms.repository.SkillMasterRepository;
 
 @Service
@@ -22,10 +23,10 @@ public class SkillMasterService {
 	SkillMasterMapper skillMasterMapper;
 	
 		//createSkills
-	public SkillMasterModel createAndSaveSkillMaster(SkillMasterModel skillMasterModel)throws DuplicateResourceFound
+	public SkillMasterDto createAndSaveSkillMaster(SkillMasterDto skillMasterModel)throws DuplicateResourceFound
 	{
 		SkillMaster newSkillMaster = skillMasterMapper.toSkillMasterEntity(skillMasterModel);
-		SkillMasterModel savedSkillMasterDTO =null;
+		SkillMasterDto savedSkillMasterDTO =null;
 		 SkillMaster savedEntity =null;
 		 
 		 List<SkillMaster>result= skillMasterRepository.findBySkillName(newSkillMaster.getSkillName());
@@ -40,7 +41,7 @@ public class SkillMasterService {
 		 }
 	
 		//GetAllSkills
-	public List<SkillMasterModel> getAllSkillMaster()  throws ResourceNotFoundException
+	public List<SkillMasterDto> getAllSkillMaster()  throws ResourceNotFoundException
 	{ 
 		List<SkillMaster> SkillMasterEntityList= skillMasterRepository.findAll();
 		if(SkillMasterEntityList.size()<=0) {
@@ -53,7 +54,7 @@ public class SkillMasterService {
 	
 	
 		//GetSkillByName
-	public List<SkillMasterModel> getSkillMasterByName(String skillName)throws ResourceNotFoundException
+	public List<SkillMasterDto> getSkillMasterByName(String skillName)throws ResourceNotFoundException
 	{
 		if(!(skillName.isEmpty())) {
 					
@@ -72,11 +73,11 @@ public class SkillMasterService {
 		
 		
 		//UpdateSkillById
-		public SkillMasterModel updateSkillMasterById(Long skillId,SkillMasterModel skillDTO)throws ResourceNotFoundException
+		public SkillMasterDto updateSkillMasterById(Long skillId,SkillMasterDto skillDTO)throws ResourceNotFoundException
 		{
 			SkillMaster updatedSkillMasterEntity =null;
 			SkillMaster savedSkillMasterEntity =null;
-			SkillMasterModel savedSkillMasterDTO =null;
+			SkillMasterDto savedSkillMasterDTO =null;
 			
 			
 			if(skillId!= null) {

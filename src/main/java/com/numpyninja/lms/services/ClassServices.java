@@ -1,4 +1,4 @@
-package com.numpyninja.lms.services;
+/*package com.numpyninja.lms.services;
 
 import com.numpyninja.lms.entity.ClassEntity;
 import com.numpyninja.lms.repository.ClassRepository;
@@ -38,4 +38,4 @@ public class ClassServices {
         classRepository.deleteById(id);
     }
 
-}
+}*/

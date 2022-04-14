@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/programbatch")
 public class ProgBatchController extends BaseController {
 
@@ -49,7 +49,7 @@ public class ProgBatchController extends BaseController {
     	LinkedHashMap map = (LinkedHashMap)data.get("program");   
         //ProgramEntity programEntity = programServices.findProgram((Long)data.get("batchProgramId")).get();
         //data.put("batchProgramId", programEntity.getProgramId() + " - " + programEntity.getProgramName());data.put("batchProgramId", programEntity.getProgramId() + " - " + programEntity.getProgramName());
-    	data.put("batchProgramId", map.get("programId") + " - " + map.get("programName"));
+    	data.put("program", map.get("programId") + " - " + map.get("programName"));
     	return data;
     }
 
