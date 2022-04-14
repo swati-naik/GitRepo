@@ -1,6 +1,6 @@
 package com.numpyninja.lms.services;
 
-import com.numpyninja.lms.entity.ProgramEntity;
+import com.numpyninja.lms.entity.Program;
 import com.numpyninja.lms.repository.ProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,23 +14,23 @@ public class ProgramServices {
     @Autowired
     private ProgramRepository programRepository;
 
-    public List<ProgramEntity> getAllPrograms() {
+    public List<Program> getAllPrograms() {
         return programRepository.findAll();
     }
 
-    public List<ProgramEntity> getAllPrograms(String searchString) {
+    public List<Program> getAllPrograms(String searchString) {
         return programRepository.findByProgramNameContainingIgnoreCaseOrderByProgramIdAsc(searchString);
     }
 
-    public Optional<ProgramEntity> findProgram(Long id) {
+    public Optional<Program> findProgram(Long id) {
         return programRepository.findById(id);
     }
 
-    public ProgramEntity createProgram(ProgramEntity newProgram) {
+    public Program createProgram(Program newProgram) {
         return programRepository.saveAndFlush(newProgram);
     }
 
-    public ProgramEntity updateProgram(ProgramEntity updatedProgram) {
+    public Program updateProgram(Program updatedProgram) {
         return programRepository.save(updatedProgram);
     }
 

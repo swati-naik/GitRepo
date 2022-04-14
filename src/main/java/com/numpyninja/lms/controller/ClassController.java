@@ -1,8 +1,8 @@
 package com.numpyninja.lms.controller;
 
 /*import com.numpyninja.lms.entity.ClassEntity;
-import com.numpyninja.lms.entity.ProgBatchEntity;
-import com.numpyninja.lms.entity.ProgramEntity;
+import com.numpyninja.lms.entity.Batch;
+import com.numpyninja.lms.entity.Program;
 import com.numpyninja.lms.services.ClassServices;
 import com.numpyninja.lms.services.ProgBatchServices;
 import com.numpyninja.lms.services.ProgramServices;
@@ -43,7 +43,7 @@ public class ClassController extends BaseController {
 
     @Override
     protected Map<String, Object> addUpdateFields(Map<String, Object> data){
-        ProgBatchEntity programEntity = progBatchServices.findBatchById((Integer)data.get("batchId")).get();
+        Batch programEntity = progBatchServices.findBatchById((Integer)data.get("batchId")).get();
         data.put("batchId", programEntity.getBatchName() + " - " + programEntity.getBatchDescription());
         return data;
     }

@@ -2,7 +2,7 @@ package com.numpyninja.lms.repository;
 
 
 import com.numpyninja.lms.entity.ClassSchedule;
-import com.numpyninja.lms.entity.ProgBatchEntity;
+import com.numpyninja.lms.entity.Batch;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

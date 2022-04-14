@@ -49,7 +49,7 @@ public class UserRoleMap {
 	@JoinTable(name="tbl_lms_userbatch_map",
                joinColumns={@JoinColumn(name="user_role_id")},
                inverseJoinColumns={@JoinColumn(name="batch_id")})
-	private Set<ProgBatchEntity> batches;
+	private Set<Batch> batches;
 	
 	@Column( name ="user_role_status")
 	private String userRoleStatus;

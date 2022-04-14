@@ -4,7 +4,7 @@ package com.numpyninja.lms.services;
 import com.numpyninja.lms.dto.ClassScheduleDto;
 import com.numpyninja.lms.dto.SkillMasterDto;
 import com.numpyninja.lms.entity.ClassSchedule;
-import com.numpyninja.lms.entity.ProgBatchEntity;
+import com.numpyninja.lms.entity.Batch;
 import com.numpyninja.lms.entity.SkillMaster;
 import com.numpyninja.lms.entity.User;
 import com.numpyninja.lms.exception.DuplicateResourceFound;
@@ -41,7 +41,7 @@ public class ClassManagementService {
     public ClassScheduleDto createClass(ClassScheduleDto newClassDto) throws DuplicateResourceFound {
     	 ClassSchedule newClassScheduleEntity;
     	 
-    	 ProgBatchEntity batchEntity;
+    	 Batch batchEntity;
     	 User userEntity;
     	 
 		ClassScheduleDto savedclassSchdDto =null;

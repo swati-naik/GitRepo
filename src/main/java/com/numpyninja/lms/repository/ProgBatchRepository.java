@@ -1,6 +1,6 @@
 package com.numpyninja.lms.repository;
 
-import com.numpyninja.lms.entity.ProgBatchEntity;
+import com.numpyninja.lms.entity.Batch;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -10,17 +10,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProgBatchRepository extends JpaRepository<ProgBatchEntity, Integer>, JpaSpecificationExecutor<ProgBatchEntity> {
+public interface ProgBatchRepository extends JpaRepository<Batch, Integer>, JpaSpecificationExecutor<Batch> {
 	 // LMSPhase2 changes
-	/*static Specification<ProgBatchEntity> hasProgramId(Long programId) {
+	/*static Specification<Batch> hasProgramId(Long programId) {
         return (programBatchEntity, cq, cb) -> cb.equal(programBatchEntity.get("batchProgramId"), programId);
     }*/
 
-    Optional<ProgBatchEntity> findByBatchName(String programName);
+    Optional<Batch> findByBatchName(String programName);
 
-    /*List<ProgBatchEntity> findAll(Specification<ProgBatchEntity> hasProgramId);*/   // LMSPhase2 changes
+    /*List<Batch> findAll(Specification<Batch> hasProgramId);*/   // LMSPhase2 changes
 
-    List<ProgBatchEntity> findByBatchNameContainingIgnoreCaseOrderByBatchIdAsc(String batchName);
+    List<Batch> findByBatchNameContainingIgnoreCaseOrderByBatchIdAsc(String batchName);
 
-    List<ProgBatchEntity> findAllByProgramProgramId ( Integer programId);  // LMSPhase2 changes
+    List<Batch> findAllByProgramProgramId ( Integer programId);  // LMSPhase2 changes
+    
+    //List<Batch> findAllOrderByBatchNameProgramProgramIdAsc();  // throwing error; need to be corrected
 }

@@ -1,7 +1,9 @@
 package com.numpyninja.lms.controller;
 
-import com.numpyninja.lms.entity.ProgBatchEntity;
-import com.numpyninja.lms.entity.ProgramEntity;
+import com.numpyninja.lms.dto.BatchDTO;
+import com.numpyninja.lms.entity.Batch;
+import com.numpyninja.lms.entity.Program;
+import com.numpyninja.lms.mappers.BatchMapper;
 import com.numpyninja.lms.services.ProgBatchServices;
 import com.numpyninja.lms.services.ProgramServices;
 import io.swagger.models.auth.In;
@@ -28,18 +30,22 @@ public class ProgBatchController extends BaseController {
 
     @Autowired
     private ProgramServices programServices;
+    
+    @Autowired
+    private BatchMapper batchMapper;
 
     //Get all ProgramList
     public ProgBatchController() {
         super("programbatch");
     }
 
-    @Override
+    //@Override
+    @GetMapping("/")
     protected List<?> getAll(String searchString) {
         if (StringUtils.isNotBlank(searchString)) {
-            return batchService.getAllBatches(searchString);
+        	return batchMapper.toBatchDTOs(batchService.getAllBatches(searchString));           
         } else {
-            return batchService.getAllBatches();
+            return batchMapper.toBatchDTOs(batchService.getAllBatches());
         }
     }
 
@@ -47,7 +53,7 @@ public class ProgBatchController extends BaseController {
     protected Map<String, Object> addUpdateFields(Map<String, Object> data){
     	// LMSPhase2 changes
     	LinkedHashMap map = (LinkedHashMap)data.get("program");   
-        //ProgramEntity programEntity = programServices.findProgram((Long)data.get("batchProgramId")).get();
+        //Program programEntity = programServices.findProgram((Long)data.get("batchProgramId")).get();
         //data.put("batchProgramId", programEntity.getProgramId() + " - " + programEntity.getProgramName());data.put("batchProgramId", programEntity.getProgramId() + " - " + programEntity.getProgramName());
     	data.put("program", map.get("programId") + " - " + map.get("programName"));
     	return data;
@@ -59,7 +65,7 @@ public class ProgBatchController extends BaseController {
 
     @GetMapping("/addView")
     String addProgram(Model model) {
-        model.addAttribute("model", new ProgBatchEntity());
+        model.addAttribute("model", new Batch());
         populateDropdowns(model);
         return "LMSAddBatch";
     }
@@ -72,8 +78,8 @@ public class ProgBatchController extends BaseController {
         return "LmsEditBatch";
     }
 
-    @PostMapping("/add")
-    String createProgram(@ModelAttribute @Valid ProgBatchEntity batch, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    /*@PostMapping("/add")
+    String createProgram(@ModelAttribute @Valid Batch batch, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", formatErrors(bindingResult));
             model.addAttribute("model", batch);
@@ -82,17 +88,18 @@ public class ProgBatchController extends BaseController {
         batch = batchService.createBatch(batch, batch.getProgram().getProgramId());
         redirectAttributes.addFlashAttribute("message", "Batch " + batch.getBatchName() + " with Id: " + batch.getBatchId() + " created Successfully!");
         return "redirect:/programbatch";
-    }
+    } */
 
     //Update program Information
     @PutMapping("/save/{id}")
-    String updateProgram(@ModelAttribute @Valid ProgBatchEntity batch, BindingResult bindingResult, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    String updateProgram(@ModelAttribute @Valid Batch batch, BindingResult bindingResult, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", formatErrors(bindingResult));
             model.addAttribute("model", batch);
             return "LMSEditBatch";
         }
         //model.addAttribute("model",batchService.updateBatch(batch,id));
+        
         batchService.updateBatch(batch, id);
         redirectAttributes.addFlashAttribute("message", "Program " + batch.getBatchName() + " with Id: " + id + " updated Successfully!");
         return "redirect:/programbatch";
@@ -103,5 +110,18 @@ public class ProgBatchController extends BaseController {
         batchService.deleteProgramBatch(id);
         redirectAttributes.addFlashAttribute("message", "Program Batch with Id: " + id + " deleted Successfully!");
         return "redirect:/programbatch";
+    }
+    
+    @PostMapping("/batches")
+    String createBatch(@ModelAttribute @Valid BatchDTO batchDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", formatErrors(bindingResult));
+            model.addAttribute("model", batchDTO);
+            return "LmsAddBatch";
+        }
+        
+        Batch batch = batchMapper.toBatch(batchDTO );
+        batchService.createBatch(batch, batchDTO.getProgramId());
+        return new String("Batch " + batch.getBatchName() + " with Id: " + batch.getBatchId() + " created Successfully!");
     }
 }

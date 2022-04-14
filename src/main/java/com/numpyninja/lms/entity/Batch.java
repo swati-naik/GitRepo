@@ -14,7 +14,7 @@ import javax.validation.constraints.Positive;
 @ToString
 @EqualsAndHashCode
 @Table(name = "tbl_lms_batch")
-public class ProgBatchEntity {
+public class Batch {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch_id_generator")
     @SequenceGenerator(name = "batch_id_generator", sequenceName = "tbl_lms_batch_batch_id_seq", allocationSize = 1)
@@ -28,7 +28,7 @@ public class ProgBatchEntity {
 	@ManyToOne ( cascade = CascadeType.ALL , fetch = FetchType.LAZY)       // LMSPhase2 changes
     @JoinColumn ( name = "batch_program_id", nullable = false )  // LMSPhase2 changes
     //Long batchProgramId;                             
-    private ProgramEntity program;                         // LMSPhase2 changes  
+    private Program program;                         // LMSPhase2 changes  
 
     Integer batchNoOfClasses;
 }

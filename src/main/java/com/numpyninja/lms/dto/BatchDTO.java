@@ -1,17 +1,6 @@
 package com.numpyninja.lms.dto;
 
-import java.sql.Timestamp;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,7 +21,7 @@ public class BatchDTO {
 	
 	private int batchNoOfClasses;
 	
-	private Integer programId;
+	private Long programId;
 	private String programName;
 	
 }

@@ -1,6 +1,6 @@
 package com.numpyninja.lms.controller;
 
-import com.numpyninja.lms.entity.ProgramEntity;
+import com.numpyninja.lms.entity.Program;
 import com.numpyninja.lms.services.ProgramServices;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ProgramController extends BaseController {
 
     @GetMapping("/addView")
     String addProgram(Model model) {
-        model.addAttribute("model", new ProgramEntity());
+        model.addAttribute("model", new Program());
         return "LmsAddprogram";
     }
 
@@ -47,7 +47,7 @@ public class ProgramController extends BaseController {
 
     //Create New Program
     @PostMapping("/add")
-    String createProgram(@ModelAttribute @Valid ProgramEntity program, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    String createProgram(@ModelAttribute @Valid Program program, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", formatErrors(bindingResult));
             model.addAttribute("model", program);
@@ -60,7 +60,7 @@ public class ProgramController extends BaseController {
 
     //Update program Information
     @PutMapping("/save/{id}")
-    String updateProgram(@ModelAttribute @Valid ProgramEntity program, BindingResult bindingResult, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+    String updateProgram(@ModelAttribute @Valid Program program, BindingResult bindingResult, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", formatErrors(bindingResult));
             model.addAttribute("model", program);

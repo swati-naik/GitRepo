@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 @ToString
 @EqualsAndHashCode
 @Table(name = "tbl_lms_program")
-public class ProgramEntity {
+public class Program {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "program_id_generator")
     @SequenceGenerator(name = "program_id_generator", sequenceName = "tbl_lms_program_program_id_seq", allocationSize = 1)

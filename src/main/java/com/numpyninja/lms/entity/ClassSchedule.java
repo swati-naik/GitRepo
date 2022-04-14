@@ -31,7 +31,7 @@ public class ClassSchedule {
 	@JoinColumn(name="batch_id", nullable=false)//,insertable=false, updatable=false,referencedColumnName = "batch_id", unique = true)
 	//@JsonIgnore
 	@javax.persistence.Embedded
-	private ProgBatchEntity batchInClass;
+	private Batch batchInClass;
     
     @Column(name="class_no")
     private Integer classNo;

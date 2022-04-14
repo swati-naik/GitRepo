@@ -1,7 +1,7 @@
 package com.numpyninja.lms.services;
 
-import com.numpyninja.lms.entity.ProgBatchEntity;
-import com.numpyninja.lms.entity.ProgramEntity;
+import com.numpyninja.lms.entity.Batch;
+import com.numpyninja.lms.entity.Program;
 import com.numpyninja.lms.repository.ProgBatchRepository;
 import com.numpyninja.lms.repository.ProgramRepository;
 
@@ -21,41 +21,42 @@ public class ProgBatchServices {
     private ProgramRepository programRepository;
     
     // method for All batch
-    public List<ProgBatchEntity> getAllBatches() {
-        return progBatchRepository.findAll();
+    public List<Batch> getAllBatches() {
+    	return progBatchRepository.findAll();
+    	//return progBatchRepository.findAllOrderByProgramProgramIdBatchNameAsc();
     }
     
-    public List<ProgBatchEntity> getAllBatches(String searchString) {
-        return progBatchRepository.findByBatchNameContainingIgnoreCaseOrderByBatchIdAsc(searchString);
+    public List<Batch> getAllBatches(String searchString) {
+    	return progBatchRepository.findByBatchNameContainingIgnoreCaseOrderByBatchIdAsc(searchString);
     }
 
 
     //method for get single batch by id
-    public Optional<ProgBatchEntity> findBatchById(Integer id) {
+    public Optional<Batch> findBatchById(Integer id) {
         return progBatchRepository.findById(id);
     }
 
     //method for finding BatchName
-    public Optional<ProgBatchEntity> findByProgramBatchName(String name) {
+    public Optional<Batch> findByProgramBatchName(String name) {
         return progBatchRepository.findByBatchName(name);
     }
 
     // create new  Batch under Program    // LMSPhase2 changes
-    public ProgBatchEntity createBatch(ProgBatchEntity newProgrambatch, Long programId) {
-    	ProgramEntity program = programRepository.findById( programId ).orElseThrow( ()->new RuntimeException("ProgramId:" + programId + " not available; Please give an existing ProgramId" ));
+    public Batch createBatch(Batch newProgrambatch, Long programId) {
+    	Program program = programRepository.findById( programId ).orElseThrow( ()->new RuntimeException("ProgramId:" + programId + " not available; Please give an existing ProgramId" ));
     	newProgrambatch.setProgram(program);
     	return progBatchRepository.save(newProgrambatch);
     }
 
     //Update new Batch                   // LMSPhase2 changes
-    public ProgBatchEntity updateBatch(ProgBatchEntity updatedProgram, Long id) {
-    	ProgramEntity program = programRepository.findById( id ).orElseThrow( ()->new RuntimeException("ProgramId:" + id + " not available; Please give an existing ProgramId" ));
+    public Batch updateBatch(Batch updatedProgram, Long id) {
+    	Program program = programRepository.findById( id ).orElseThrow( ()->new RuntimeException("ProgramId:" + id + " not available; Please give an existing ProgramId" ));
     	updatedProgram.setProgram(program);
     	return progBatchRepository.save(updatedProgram);
     }
 
     // get Batches by Program ID        // LMSPhase2 changes
-    public List<ProgBatchEntity> findBatchByProgramId(Integer programid) {
+    public List<Batch> findBatchByProgramId(Integer programid) {
         //return progBatchRepository.findAll(ProgBatchRepository.hasProgramId(programid));
     	return progBatchRepository.findAllByProgramProgramId(programid);      // query needs to be checked whether its working
     }
