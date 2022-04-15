@@ -9,6 +9,8 @@ import com.numpyninja.lms.services.ProgramServices;
 import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -90,38 +92,29 @@ public class ProgBatchController extends BaseController {
         return "redirect:/programbatch";
     } */
 
-    //Update program Information
-    @PutMapping("/save/{id}")
-    String updateProgram(@ModelAttribute @Valid Batch batch, BindingResult bindingResult, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", formatErrors(bindingResult));
-            model.addAttribute("model", batch);
-            return "LMSEditBatch";
-        }
-        //model.addAttribute("model",batchService.updateBatch(batch,id));
-        
-        batchService.updateBatch(batch, id);
-        redirectAttributes.addFlashAttribute("message", "Program " + batch.getBatchName() + " with Id: " + id + " updated Successfully!");
-        return "redirect:/programbatch";
-    }
-
-    @GetMapping("/delete/{id}")
-    String deleteProgram(Model model, @PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        batchService.deleteProgramBatch(id);
-        redirectAttributes.addFlashAttribute("message", "Program Batch with Id: " + id + " deleted Successfully!");
-        return "redirect:/programbatch";
-    }
     
-    @PostMapping("/batches")
-    String createBatch(@ModelAttribute @Valid BatchDTO batchDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", formatErrors(bindingResult));
-            model.addAttribute("model", batchDTO);
-            return "LmsAddBatch";
-        }
+    @PostMapping(path = "/batches", consumes = "application/json", produces = "application/json")
+    ResponseEntity<BatchDTO> createBatch( @Valid @RequestBody BatchDTO batchDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         
         Batch batch = batchMapper.toBatch(batchDTO );
-        batchService.createBatch(batch, batchDTO.getProgramId());
-        return new String("Batch " + batch.getBatchName() + " with Id: " + batch.getBatchId() + " created Successfully!");
+        Batch bachCreated = batchService.createBatch(batch, batchDTO.getProgramId());
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(batchMapper.toBatchDTO(bachCreated ));
+        //return new String("Batch " + batch.getBatchName() + " with Id: " + batch.getBatchId() + " created Successfully!");
+    }
+    
+    //Update program Information
+    @PutMapping(path = "/save/{id}", consumes = "application/json", produces = "application/json")
+    ResponseEntity<BatchDTO> updateProgram( Batch batch,  @PathVariable Long id ) {
+    	Batch updatedBatch = batchService.updateBatch(batch, id);
+    	return ResponseEntity.ok( batchMapper.toBatchDTO( updatedBatch ) );
+    }
+
+    
+    @DeleteMapping(path = "/delete/{id}" , produces = "application/json" )
+    String deleteBatch( @PathVariable Integer id) {
+        batchService.deleteProgramBatch(id);
+        String message = "message" + "Program Batch with Id: " + id + " deleted Successfully!";
+        return message;
     }
 }

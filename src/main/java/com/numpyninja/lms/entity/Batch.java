@@ -19,9 +19,9 @@ public class Batch {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch_id_generator")
     @SequenceGenerator(name = "batch_id_generator", sequenceName = "tbl_lms_batch_batch_id_seq", allocationSize = 1)
     Integer batchId;
-    @NotBlank(message = "Batch Name is mandatory")
+    
     String batchName;
-    @NotBlank(message = "Batch Description cannot be null")
+   
     String batchDescription;
     String batchStatus;
 

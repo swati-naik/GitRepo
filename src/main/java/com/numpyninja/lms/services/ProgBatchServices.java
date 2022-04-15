@@ -49,10 +49,10 @@ public class ProgBatchServices {
     }
 
     //Update new Batch                   // LMSPhase2 changes
-    public Batch updateBatch(Batch updatedProgram, Long id) {
+    public Batch updateBatch(Batch updatedBatch, Long id) {
     	Program program = programRepository.findById( id ).orElseThrow( ()->new RuntimeException("ProgramId:" + id + " not available; Please give an existing ProgramId" ));
-    	updatedProgram.setProgram(program);
-    	return progBatchRepository.save(updatedProgram);
+    	updatedBatch.setProgram(program);
+    	return progBatchRepository.save(updatedBatch);
     }
 
     // get Batches by Program ID        // LMSPhase2 changes

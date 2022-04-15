@@ -20,8 +20,6 @@ public interface BatchMapper {
 	@Mapping ( source = "batch.program.programName", target = "programName")
 	BatchDTO toBatchDTO(Batch batch);
 	
-	@Mapping ( source = "dto.batchName", target = "batchName" )
-	@Mapping ( source = "dto.batchDescription", target = "batchDescription" )
 	@Mapping ( source = "dto.programId", target = "program.programId" )
  	Batch  toBatch ( BatchDTO dto);
 	 
