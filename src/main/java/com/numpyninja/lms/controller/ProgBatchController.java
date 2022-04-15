@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/programbatch")
+
 public class ProgBatchController extends BaseController {
 
     @Autowired
@@ -42,7 +42,7 @@ public class ProgBatchController extends BaseController {
     }
 
     //@Override
-    @GetMapping("/")
+    @GetMapping("/batches")
     protected List<?> getAll(String searchString) {
         if (StringUtils.isNotBlank(searchString)) {
         	return batchMapper.toBatchDTOs(batchService.getAllBatches(searchString));           
@@ -104,17 +104,17 @@ public class ProgBatchController extends BaseController {
     }
     
     //Update program Information
-    @PutMapping(path = "/save/{id}", consumes = "application/json", produces = "application/json")
-    ResponseEntity<BatchDTO> updateProgram( Batch batch,  @PathVariable Long id ) {
-    	Batch updatedBatch = batchService.updateBatch(batch, id);
+    @PutMapping(path = "/batches/{batchId}", consumes = "application/json", produces = "application/json")
+    ResponseEntity<BatchDTO> updateBatch( @RequestBody BatchDTO batchDTO,  @PathVariable Integer batchId ) {
+    	Batch updatedBatch = batchService.updateBatch( batchMapper.toBatch(batchDTO ), batchId);
     	return ResponseEntity.ok( batchMapper.toBatchDTO( updatedBatch ) );
     }
 
     
-    @DeleteMapping(path = "/delete/{id}" , produces = "application/json" )
+    @DeleteMapping(path = "/batches/{id}" , produces = "application/json" )
     String deleteBatch( @PathVariable Integer id) {
         batchService.deleteProgramBatch(id);
-        String message = "message" + "Program Batch with Id: " + id + " deleted Successfully!";
+        String message = "message" + " Batch with Id: " + id + " deleted Successfully!";
         return message;
     }
 }

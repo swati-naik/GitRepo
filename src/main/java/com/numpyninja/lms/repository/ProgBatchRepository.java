@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProgBatchRepository extends JpaRepository<Batch, Integer>, JpaSpecificationExecutor<Batch> {
+public interface ProgBatchRepository extends JpaRepository<Batch, Integer>  {
 	 // LMSPhase2 changes
 	/*static Specification<Batch> hasProgramId(Long programId) {
         return (programBatchEntity, cq, cb) -> cb.equal(programBatchEntity.get("batchProgramId"), programId);

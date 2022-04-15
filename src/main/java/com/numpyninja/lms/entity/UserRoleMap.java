@@ -37,15 +37,15 @@ public class UserRoleMap {
 	@Column( name ="user_role_id")
 	private Long userRoleId;
 	
-	@ManyToOne ( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+	@ManyToOne (   fetch = FetchType.LAZY )
     @JoinColumn ( name = "user_id", nullable = false )
 	private User user;
 	
-	@ManyToOne ( cascade = CascadeType.ALL , fetch = FetchType.LAZY )  
+	@ManyToOne (  fetch = FetchType.LAZY )  
     @JoinColumn ( name = "role_id", nullable = false )
 	private Role role;
 	
-	@ManyToMany ( cascade = CascadeType.ALL )  //  defualt fetch is FetchType.LAZY ; so we dont need to specify expilcitly
+	@ManyToMany   //  defualt fetch is FetchType.LAZY ; so we dont need to specify expilcitly
 	@JoinTable(name="tbl_lms_userbatch_map",
                joinColumns={@JoinColumn(name="user_role_id")},
                inverseJoinColumns={@JoinColumn(name="batch_id")})

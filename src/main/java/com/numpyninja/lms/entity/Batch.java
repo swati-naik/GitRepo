@@ -25,7 +25,7 @@ public class Batch {
     String batchDescription;
     String batchStatus;
 
-	@ManyToOne ( cascade = CascadeType.ALL , fetch = FetchType.LAZY)       // LMSPhase2 changes
+	@ManyToOne ( fetch = FetchType.LAZY)       // LMSPhase2 changes
     @JoinColumn ( name = "batch_program_id", nullable = false )  // LMSPhase2 changes
     //Long batchProgramId;                             
     private Program program;                         // LMSPhase2 changes  

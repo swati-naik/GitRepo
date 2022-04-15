@@ -43,17 +43,29 @@ public class ProgBatchServices {
 
     // create new  Batch under Program    // LMSPhase2 changes
     public Batch createBatch(Batch newProgrambatch, Long programId) {
-    	Program program = programRepository.findById( programId ).orElseThrow( ()->new RuntimeException("ProgramId:" + programId + " not available; Please give an existing ProgramId" ));
+    	Program program = programRepository.findById( programId ).get();
     	newProgrambatch.setProgram(program);
     	return progBatchRepository.save(newProgrambatch);
     }
 
+    
     //Update new Batch                   // LMSPhase2 changes
-    public Batch updateBatch(Batch updatedBatch, Long id) {
-    	Program program = programRepository.findById( id ).orElseThrow( ()->new RuntimeException("ProgramId:" + id + " not available; Please give an existing ProgramId" ));
-    	updatedBatch.setProgram(program);
-    	return progBatchRepository.save(updatedBatch);
+    public Batch updateBatch(Batch batchDetailToUpdt, Integer batchId) {
+    	Long progId =  batchDetailToUpdt.getProgram().getProgramId() ;
+    	Batch existBatch = progBatchRepository.findById(batchId).get();
+    	Long exisProgId = existBatch.getProgram().getProgramId();
+    	if ( !progId.equals(exisProgId) ) {
+    		Program program = programRepository.findById( batchDetailToUpdt.getProgram().getProgramId() ).get();  
+    	    existBatch.setProgram(program);
+    	}
+    	existBatch.setBatchName( batchDetailToUpdt.getBatchName());
+    	existBatch.setBatchDescription( batchDetailToUpdt.getBatchDescription());
+    	existBatch.setBatchNoOfClasses( batchDetailToUpdt.getBatchNoOfClasses());
+    	existBatch.setBatchStatus( batchDetailToUpdt.getBatchStatus());
+    	
+    	return progBatchRepository.save(existBatch);
     }
+
 
     // get Batches by Program ID        // LMSPhase2 changes
     public List<Batch> findBatchByProgramId(Integer programid) {
