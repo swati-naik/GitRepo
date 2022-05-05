@@ -36,7 +36,7 @@ public class SkillMasterController {
 	//createSkills
 	@PostMapping(path="/SaveSkillMaster",consumes = "application/json", produces = "application/json")  
 	@ResponseBody
-	private ResponseEntity<?> createAndSaveProgram(@Valid @RequestBody SkillMasterDto newSkillMaster)throws  DuplicateResourceFound
+	private ResponseEntity<?> createAndSaveSkill(@Valid @RequestBody SkillMasterDto newSkillMaster)throws  DuplicateResourceFound
 	{  
 		SkillMasterDto savedSkillMasterDTO = skillMasterService.createAndSaveSkillMaster(newSkillMaster);
 	return ResponseEntity.status(HttpStatus.CREATED).body(savedSkillMasterDTO);  
@@ -63,7 +63,7 @@ public class SkillMasterController {
 	//UpdateSkillById
 	@PutMapping(path="updateSkills/{skillId}", consumes = "application/json", produces = "application/json")  
 	@ResponseBody
-	private ResponseEntity <SkillMasterDto> updateProgramById(@PathVariable @NotBlank @Positive Long skillId ,@Valid @RequestBody SkillMasterDto modifySkillMaster) throws ResourceNotFoundException
+	private ResponseEntity <SkillMasterDto> updateSkillById(@PathVariable @NotBlank @Positive Long skillId ,@Valid @RequestBody SkillMasterDto modifySkillMaster) throws ResourceNotFoundException
 	{  
 	return ResponseEntity.ok(skillMasterService.updateSkillMasterById(skillId,modifySkillMaster));
 	} 

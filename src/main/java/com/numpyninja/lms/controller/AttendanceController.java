@@ -23,8 +23,8 @@ public class AttendanceController extends BaseController {
     @Autowired
     private AttendanceServices attendanceServices;
 
-    @Autowired
-    private ClassManagementService classServices;
+    //@Autowired
+    //private ClassManagementService classServices;
 
     public AttendanceController() {
         super("attendance");

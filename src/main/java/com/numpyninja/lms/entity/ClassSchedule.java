@@ -31,6 +31,7 @@ public class ClassSchedule {
 	@JoinColumn(name="batch_id", nullable=false)//,insertable=false, updatable=false,referencedColumnName = "batch_id", unique = true)
 	//@JsonIgnore
 	@javax.persistence.Embedded
+	@AttributeOverride( name = "batchId", column = @Column(name = "batch_id"))
 	private Batch batchInClass;
     
     @Column(name="class_no")
@@ -50,6 +51,8 @@ public class ClassSchedule {
 	@JoinColumn(name="class_staff_id", nullable=false)//,insertable=false, updatable=false,referencedColumnName = "program_id", unique = true)
 	//@JsonIgnore
 	@javax.persistence.Embedded
+	@AttributeOverride( name = "userId", column = @Column(name = "class_staff_id"))	
+	//@AttributeOverride( name = "userId", column = @Column(name = "classStaffId"))
 	private User staffInClass;
     
     @Column(name="class_description")

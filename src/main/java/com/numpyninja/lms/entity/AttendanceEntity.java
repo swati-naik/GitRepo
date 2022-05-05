@@ -20,7 +20,7 @@ public class AttendanceEntity {
     Long attId;
 
     @Column(name = "csId")
-    Integer classId;
+    Long classId;
     String studentId;
     String attendance;
 }

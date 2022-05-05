@@ -1,13 +1,15 @@
 package com.numpyninja.lms.services;
 
 
+
 import com.numpyninja.lms.dto.ClassScheduleDto;
-import com.numpyninja.lms.dto.SkillMasterDto;
+
 import com.numpyninja.lms.entity.ClassSchedule;
 import com.numpyninja.lms.entity.Batch;
-import com.numpyninja.lms.entity.SkillMaster;
+
 import com.numpyninja.lms.entity.User;
 import com.numpyninja.lms.exception.DuplicateResourceFound;
+import com.numpyninja.lms.exception.ResourceNotFoundException;
 import com.numpyninja.lms.mappers.ClassScheduleMapper;
 import com.numpyninja.lms.repository.ClassScheduleRepository;
 import com.numpyninja.lms.repository.ProgBatchRepository;
@@ -15,6 +17,7 @@ import com.numpyninja.lms.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,7 +40,7 @@ public class ClassManagementService {
     
     
     
-    //create class schedules
+    //create a new class schedule for existing batchId and staffId 
     public ClassScheduleDto createClass(ClassScheduleDto newClassDto) throws DuplicateResourceFound {
     	 ClassSchedule newClassScheduleEntity;
     	 
@@ -72,15 +75,15 @@ public class ClassManagementService {
 					newClassScheduleEntity.setBatchInClass(batchEntity);
 					newClassScheduleEntity.setStaffInClass(userEntity);
 				
-							savedEntity= classRepository.save(newClassScheduleEntity);
-				savedclassSchdDto =classMapper.toClassSchdDTO(savedEntity);
+					savedEntity= classRepository.save(newClassScheduleEntity);
+					savedclassSchdDto =classMapper.toClassSchdDTO(savedEntity);
 				//return savedclassSchdDto;
 				}
 				}else {
-					if(batchIdInClass == null) {
+					if(!(batchRepository.existsById(batchIdInClass))) {
 						 System.out.println("BatchId is Fk: no BatchId Exists in batch table "+batchIdInClass);
 						 throw new NoSuchElementException("no BatchId Exists in batch table ");
-					    }if(StaffInClass == null) {
+					    }if(!(userRepository.existsById(StaffInClass))) {
 						 System.out.println("staffId is Fk: no staffId Exists in user table "+StaffInClass);
 						 throw new NoSuchElementException("no staffId Exists in user table ");
 					  }//end of if
@@ -96,33 +99,164 @@ public class ClassManagementService {
 		 
 		 
 		
-    //create additional class schedules
-    public ClassSchedule createAdditionalClass(ClassSchedule newClass) {
-        return classRepository.saveAndFlush(newClass);
-    }
-    
     //get All Class schedules -not mentioned in Excel
-   /* public List<ClassSchedule> getAllClasss() {
-        return classRepository.findAll();
-    }*/
+    public List<ClassScheduleDto> getAllClasses() throws ResourceNotFoundException{
+      List<ClassSchedule> ClassScheduleList= classRepository.findAll();
+		if(ClassScheduleList.size()<=0) {
+			throw new ResourceNotFoundException("ClassSchedule list is not found");
+		}
+		else {
+	    	    return (classMapper.toClassScheduleDTOList(ClassScheduleList));
+		}
+      }
     
-    //get Class by searchString -Not mentioned in Excel
-   /* public List<ClassSchedule> getAllClasss(String searchString) {
-        return classRepository.findByClassTopicContainingIgnoreCaseOrderByClassTopicAsc(searchString);
-    }*/
-
-    //get Class by Id 
-    public Optional<ClassSchedule> findClass(Long id) {
-        return classRepository.findById(id);
-    }
+    //get class by classId
+      public ClassScheduleDto getClassByClassId(Long id) throws ResourceNotFoundException{
+    	  ClassSchedule ClassScheduleById= classRepository.findById(id).get();
+  		if(ClassScheduleById== null) {
+  			throw new ResourceNotFoundException("ClassSchedule is not found for classId :"+id);
+  		}
+  		else {
+  	    	    return (classMapper.toClassSchdDTO(ClassScheduleById));
+  		}
+      }
+    //get all classes by classTopic - not mentioned in Excel
+      public List<ClassScheduleDto> getClassesByClassTopic(String classTopic)throws ResourceNotFoundException
+  	{
+  		if(!(classTopic.isEmpty())) {
+  					
+  		List<ClassSchedule>result= classRepository.findByClassTopicContainingIgnoreCaseOrderByClassTopicAsc(classTopic);
+  		if(result.size()<=0) {
+  			System.out.println("list of classes with "+ classTopic+" not found");
+  			 throw new ResourceNotFoundException("classes with class topic Name: "+classTopic +" not found"); 
+  		}
+  		return classMapper.toClassScheduleDTOList(result);
+  		}
+  		else {
+  			System.out.println("class Topic search string cannot be blank or null");
+  			throw new IllegalArgumentException();
+  		}
+  	 }
+  		
+    //get all classes by batchId
+      @Transactional
+      public List<ClassScheduleDto> getClassesByBatchId(Integer batchId) throws ResourceNotFoundException,IllegalArgumentException
+  	{
+  		if(batchId!=null)
+  		{ 
+  			List<ClassSchedule> result=classRepository.findByBatchInClass_batchId(batchId);
+  			if(!(result.size()<0))
+  			{
+  				return (classMapper.toClassScheduleDTOList(result));
+  				
+  			}else
+  			{
+  				throw new ResourceNotFoundException("classes with this batcghId "+batchId +"not found");
+  			}
+  		}else
+  		{
+  			System.out.println("batchId search string cannot be null");
+  			throw new IllegalArgumentException();
+  		}
+   	}
+      
+    //get all classes by classStaffId
+      public List<ClassScheduleDto> getClassesByStaffId(String staffId) throws ResourceNotFoundException,IllegalArgumentException
+    	{
+    		if(staffId!=null)
+    		{ 
+    			List<ClassSchedule> result=classRepository.findBystaffInClass_userId(staffId);  
+    			if(!(result.size()<0))
+    			{
+    				return (classMapper.toClassScheduleDTOList(result));
+    				
+    			}else
+    			{
+    				throw new ResourceNotFoundException("classes with this staffId "+staffId +" not found");
+    			}
+    		}else
+    		{
+    			System.out.println("staffId search string cannot be null");
+    			throw new IllegalArgumentException();
+    		}
+     	}
+      
+    //get all classes by classDate
+      //coming soon
+    
+     
 
     //Update Class Schedules by Id
-    public ClassSchedule updateClass(ClassSchedule updatedClass) {
-        return classRepository.save(updatedClass);
-    }
+    public ClassScheduleDto updateClassByClassId(Long id,ClassScheduleDto modifiedClassDTO) throws ResourceNotFoundException{
+    	{
+			System.out.println("in updateClassServiceById method");
+			ClassSchedule updateClassSchedule;
+			ClassScheduleDto savedClassDTO = null;
+			ClassSchedule savedClassSchedule =null;
+			if(id!=null)
+			{
+				ClassSchedule newClassSchedule  = classMapper.toClassScheduleEntity(modifiedClassDTO);
+			Boolean isPresentTrue=classRepository.findById(id).isPresent();
+			
+			if(isPresentTrue)
+			{
+				updateClassSchedule = classRepository.getById(id);
+				updateClassSchedule.setClassComments(modifiedClassDTO.getClassComments());
+				updateClassSchedule.setClassDate(modifiedClassDTO.getClassDate());
+				updateClassSchedule.setClassDescription(modifiedClassDTO.getClassDescription());
+				updateClassSchedule.setClassNo(modifiedClassDTO.getClassNo());
+				updateClassSchedule.setCreationTime(modifiedClassDTO.getCreationTime());
+				updateClassSchedule.setLastModTime(modifiedClassDTO.getLastModTime());
+				updateClassSchedule.setClassNotes(modifiedClassDTO.getClassNotes());
+				updateClassSchedule.setClassRecordingPath(modifiedClassDTO.getClassRecordingPath());
+				updateClassSchedule.setClassTopic(modifiedClassDTO.getClassTopic());
+				
+				
+				Batch updatedBatchEntityInClass = batchRepository.getById(modifiedClassDTO.getBatchId());
+				User updatedStaffEntityInClass = userRepository.getById(modifiedClassDTO.getClassStaffId());
+				
+				updateClassSchedule.setBatchInClass(updatedBatchEntityInClass);
+				updateClassSchedule.setStaffInClass(updatedStaffEntityInClass);
+				
+				savedClassSchedule = classRepository.save(updateClassSchedule);
+				 savedClassDTO = classMapper.toClassSchdDTO(savedClassSchedule);
+				 
+				 return savedClassDTO; 
+			}
+			else {
+				throw new ResourceNotFoundException("no record found with "+ id);
+			}
+			
+		}else {
+			throw new IllegalArgumentException();
+		}
+	}
+   }    
 
-    /*public void deleteClass(Long id) {
-        classRepository.deleteById(id);
-    }*/
+    
+    	//delete by classId
+    	public Boolean deleteByClassId(Long classId) throws ResourceNotFoundException
+		{
+			System.out.println("in delete by classId Service Method");
+			if(classId!=null) {
+				Boolean value= classRepository.existsById(classId);
+				if(value)
+				{
+					classRepository.deleteById(classId);
+					return value;
+				}
+				else
+				{
+					System.out.println("record not found with classId: "+classId);
+					throw new ResourceNotFoundException("record not found with classId");
+				}
+				 
+			}				
+			else
+			{
+				throw new IllegalArgumentException();
+			}
+			
+		}
 
 }
