@@ -1,9 +1,16 @@
 package com.numpyninja.lms.controller;
 
+
+import com.numpyninja.lms.dto.ProgramDTO;
 import com.numpyninja.lms.entity.Program;
+import com.numpyninja.lms.exception.DuplicateResourceFound;
+import com.numpyninja.lms.exception.ResourceNotFoundException;
+import com.numpyninja.lms.repository.ProgramRepository;
 import com.numpyninja.lms.services.ProgramServices;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,71 +18,86 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import java.util.List;
 
-@Controller
-@RequestMapping("/program")
-public class ProgramController extends BaseController {
+@RestController
+@RequestMapping
+public class ProgramController{
     @Autowired
     private ProgramServices programServices;
 
-    public ProgramController() {
-        super("program");
-    }
-
-    @Override
-    protected List<?> getAll(String searchString) {
-        if (StringUtils.isNotBlank(searchString)) {
-            return programServices.getAllPrograms(searchString);
-        } else {
-            return programServices.getAllPrograms();
-        }
-    }
-
-    @GetMapping("/addView")
-    String addProgram(Model model) {
-        model.addAttribute("model", new Program());
-        return "LmsAddprogram";
-    }
-
-    //Display page to edit a Program
-    @GetMapping("/editView/{id}")
-    String editProgram(Model model, @PathVariable Long id) {
-        model.addAttribute("model", programServices.findProgram(id).get());
-        return "LmsEditProgram";
-    }
-
-    //Create New Program
-    @PostMapping("/add")
-    String createProgram(@ModelAttribute @Valid Program program, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", formatErrors(bindingResult));
-            model.addAttribute("model", program);
-            return "LmsAddprogram";
-        }
-        program = programServices.createProgram(program);
-        redirectAttributes.addFlashAttribute("message", "Program " + program.getProgramName() + " with Id: " + program.getProgramId() + " created Successfully!");
-        return "redirect:/program";
-    }
-
-    //Update program Information
-    @PutMapping("/save/{id}")
-    String updateProgram(@ModelAttribute @Valid Program program, BindingResult bindingResult, @PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errors", formatErrors(bindingResult));
-            model.addAttribute("model", program);
-            return "LmsEditProgram";
-        }
-        programServices.updateProgram(program);
-        redirectAttributes.addFlashAttribute("message", "Program " + program.getProgramName() + " with Id: " + id + " updated Successfully!");
-        return "redirect:/program";
-    }
-
-    //Delete a program from page request
-    @GetMapping("/delete/{id}")
-    String deleteProgram(Model model, @PathVariable Long id, RedirectAttributes redirectAttributes) {
-        programServices.deleteProgram(id);
-        redirectAttributes.addFlashAttribute("message", "Program with Id: " + id + " deleted Successfully!");
-        return "redirect:/program";
-    }
+    @Autowired
+    private ProgramRepository programRepository;
+    
+  //get list of programs
+  	@GetMapping(value = "/allPrograms")
+  	private ResponseEntity<?> getPrograms()  throws ResourceNotFoundException 
+  	{ 
+  		System.out.println("in getall programs");
+  		List<ProgramDTO> programList = programServices.getAllPrograms();
+  		return ResponseEntity.ok(programList);  
+  	}  
+  	
+  	//retrieves the details of a specific program
+  	@GetMapping(path="programs/{programId}", produces = "application/json")  
+  	@ResponseBody
+  	private ResponseEntity <ProgramDTO> getOneProgramById(@PathVariable("programId") @NotBlank @Positive Long programId)throws ResourceNotFoundException
+  	{  
+  	return ResponseEntity.ok().body(programServices.getProgramsById(programId));
+  	}  
+  			
+  	//post mapping that creates the program detail in the database  
+  	@PostMapping(path="/saveprogram",consumes = "application/json", produces = "application/json")  
+  	@ResponseBody
+  	private ResponseEntity<?> createAndSaveProgram(@Valid @RequestBody ProgramDTO newProgram)throws  DuplicateResourceFound
+  	{  
+  	ProgramDTO savedProgramedDTO = programServices.createAndSaveProgram(newProgram);
+  	return ResponseEntity.status(HttpStatus.CREATED).body(savedProgramedDTO);  
+  	} 
+  				
+  	//put mapping that updates the program detail by programId  
+  	@PutMapping(path="/putprogram/{programId}", consumes = "application/json", produces = "application/json")  
+  	@ResponseBody
+  	private ResponseEntity <ProgramDTO> updateProgramById(@PathVariable("programId")@NotBlank @Positive Long programId ,@Valid @RequestBody ProgramDTO modifyProgram) throws ResourceNotFoundException
+  	{  
+  	return ResponseEntity.ok(programServices.updateProgramById(programId,modifyProgram));
+  	} 
+  			
+  	//creating put mapping that updates the program detail  by programName 
+  	@PutMapping(path="/program/{programName}", consumes = "application/json", produces = "application/json")  
+  	@ResponseBody
+  	private ResponseEntity <ProgramDTO> updateProgramByName(@PathVariable("programName")@NotBlank @NotNull String programName ,@Valid @RequestBody ProgramDTO modifyProgram)throws ResourceNotFoundException  
+  	{  
+  	return ResponseEntity.ok(programServices.updateProgramByName(programName,modifyProgram));
+  	} 
+  			 
+  	//delete mapping that deletes a specified program  
+  	@DeleteMapping(path="/deletebyprogid/{programId}",produces = "application/json")  
+  	@ResponseBody
+  	private ResponseEntity<?>  deleteByProgramId(@PathVariable("programId")@NotBlank @Positive Long programId) throws ResourceNotFoundException  
+  	{  
+  	System.out.println("in delete by programID controller");
+  	boolean deleted = programServices.deleteByProgramId(programId); 
+  	if(deleted)
+  		return ResponseEntity.status(HttpStatus.OK).build();
+  			else
+  		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  	}  
+  			 
+  	//delete mapping that deletes a specified program by ProgramName  
+  	@DeleteMapping(path="/deletebyprogname/{programName}",produces = "application/json")  
+  	@ResponseBody
+  	private ResponseEntity<?>  deleteByProgramName(@PathVariable("programName")@NotBlank @NotNull String programName) throws ResourceNotFoundException  
+  	{  
+  	System.out.println("in delete by programName controller");
+  	boolean deleted =programServices.deleteByProgramName(programName);
+  	if(deleted)
+  		return ResponseEntity.status(HttpStatus.OK).build();
+  			else
+  		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  	}
 }

@@ -8,19 +8,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+//@Getter
+//@Setter
 public class ProgramDTO {
 
-		private Integer programId;
-		
+		private Long programId;
 		private String programName;
-		
 		private String programDescription;
 		private String programStatus;
-
+		private Timestamp creationTime;
+		private Timestamp lastModTime;
 }
 

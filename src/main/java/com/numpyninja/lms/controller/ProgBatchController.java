@@ -61,14 +61,14 @@ public class ProgBatchController extends BaseController {
     	return data;
     }
 
-    private void populateDropdowns(Model model){
-        model.addAttribute("program", programServices.getAllPrograms());
-    }
+    //private void populateDropdowns(Model model){
+      //  model.addAttribute("program", programServices.getAllPrograms());
+    //}
 
     @GetMapping("/addView")
     String addProgram(Model model) {
         model.addAttribute("model", new Batch());
-        populateDropdowns(model);
+        //populateDropdowns(model);
         return "LMSAddBatch";
     }
 
@@ -76,7 +76,7 @@ public class ProgBatchController extends BaseController {
     @GetMapping("/editView/{id}")
     String editProgram(Model model, @PathVariable Integer id) {
         model.addAttribute("model", batchService.findBatchById(id).get());
-        populateDropdowns(model);
+        //populateDropdowns(model);
         return "LmsEditBatch";
     }
 
