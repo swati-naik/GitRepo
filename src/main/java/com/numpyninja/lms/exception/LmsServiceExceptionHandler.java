@@ -56,10 +56,41 @@ public class LmsServiceExceptionHandler {
         return "LmsError";
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+//LMSPhase2 Changes 
+    
+    /*@ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public String handleValidationError(ConstraintViolationException ex, Model model) {
         model.addAttribute("error", new LmsError("VALIDATION_ERROR", ex.getMessage()));
         return "LmsError";
+    }*/
+    
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public LmsError handleValidationError(ResourceNotFoundException ex) {
+        return new LmsError("ENTITY_DOES_NOT_EXIST",ex.getMessage());
+    }
+    
+    @ExceptionHandler(DuplicateResourceFound.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public LmsError handleValidationError(DuplicateResourceFound ex) {
+        return new LmsError("DUPLICATE_ENTITY",ex.getMessage());
+    }
+    
+    @ExceptionHandler(InvalidDataException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public LmsError handleValidationError(InvalidDataException ex) {
+        return new LmsError("INVALID_DATA",ex.getMessage());
+    }
+    
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public LmsError handleValidationError(ConstraintViolationException ex, Model model) {
+        return new LmsError("VALIDATION_ERROR",ex.getMessage());
     }
 }

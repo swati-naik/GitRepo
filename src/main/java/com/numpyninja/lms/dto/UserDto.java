@@ -18,6 +18,9 @@ public class UserDto {
 	@JsonProperty("userLastName")
 	private String userLastName;
 	
+	@JsonProperty("userMiddleName")
+	private String userMiddleName;
+	
 	@JsonProperty("userPhoneNumber")
 	private long userPhoneNumber;
 	

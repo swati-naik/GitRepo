@@ -4,9 +4,15 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.numpyninja.lms.config.UserIDGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -22,47 +28,56 @@ import lombok.Setter;
 @Table(name="TBL_LMS_USER")
 public class User {
 
-	@Id	
+	@Id
 	@Column
-	String userId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tbl_lms_user_user_id_seq")
+    @GenericGenerator(name = "tbl_lms_user_user_id_seq", strategy = "com.numpyninja.lms.config.UserIDGenerator",
+            parameters = {
+            @Parameter(name = UserIDGenerator.INCREMENT_PARAM, value = "1"),
+            @Parameter(name = UserIDGenerator.VALUE_PREFIX_PARAMETER, value = "U"),
+            @Parameter(name = UserIDGenerator.NUMBER_FORMAT_PARAMETER, value = "%02d") })
+	private String userId;
 	
 	@Column
-	String userFirstName;
+	private String userFirstName;
 	
 	@Column
-	String userLastName;
+	private String userLastName;
 	
 	@Column
-	long userPhoneNumber;
+	private String userMiddleName;
 	
 	@Column
-	String userLocation;
+	private long userPhoneNumber;
 	
 	@Column
-	String userTimeZone;
+	private String userLocation;
 	
 	@Column
-	String userLinkedinUrl;
+	private String userTimeZone;
 	
 	@Column
-	String userEduUg;
+	private String userLinkedinUrl;
 	
 	@Column
-	String userEduPg;
+	private String userEduUg;
 	
 	@Column
-	String userComments;
+	private String userEduPg;
 	
 	@Column
-	String userVisaStatus;
+	private String userComments;
+	
+	@Column
+	private String userVisaStatus;
 	
 	@Column
 	@JsonIgnore
-	Timestamp creationTime;
+	private Timestamp creationTime;
 	
 	@Column
 	@JsonIgnore
-	Timestamp lastModTime;
+	private Timestamp lastModTime;
 
 		
 	
