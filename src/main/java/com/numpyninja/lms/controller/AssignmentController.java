@@ -47,6 +47,7 @@ public class AssignmentController {
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Assignment deleted successfully", true), HttpStatus.OK);
 	}
 	
+	//get all assignments
     @GetMapping("")
     protected ResponseEntity<List<AssignmentDto>> getAllAssignments() {
         return ResponseEntity.ok(this.assignmentService.getAllAssignments());  
@@ -58,28 +59,10 @@ public class AssignmentController {
   		return ResponseEntity.ok(this.assignmentService.getAssignmentById(id));
   	}
   	
-  	
-  	
-    
-  	
-  	
-	
-/*	//get all batches of a program
-	@GetMapping("/batches") 
-	@ResponseBody List<Batch> getBatchesForProgram(Model model, @RequestParam(value = "programId", required = true) Integer programId) {
-		//model.addAttribute("batches", progBatchServices.findBatchByProgramId(programId));
-		//model.addAttribute("model", model);
-		//return "LMSAddAssignment :: resultsList";
-		return progBatchServices.findBatchByProgramId(programId);
-	 } */
-	 
-	
-	
-	
-	
-	
-	
-	
-	
+  	//get all batches of a program
+  	@GetMapping("/batch/{batchId}")
+  	public ResponseEntity<List<AssignmentDto>> getAssignmentsForBatch(@PathVariable(value="batchId") Integer batchId) {
+  		return ResponseEntity.ok(this.assignmentService.getAssignmentsForBatch(batchId));
+  	}
 	
 }
