@@ -1,16 +1,20 @@
 package com.numpyninja.lms.services;
 
-import com.numpyninja.lms.entity.Batch;
-import com.numpyninja.lms.entity.Program;
-import com.numpyninja.lms.repository.ProgBatchRepository;
-import com.numpyninja.lms.repository.ProgramRepository;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-import java.util.Optional;
+import com.numpyninja.lms.dto.BatchDTO;
+import com.numpyninja.lms.entity.Batch;
+import com.numpyninja.lms.entity.Program;
+import com.numpyninja.lms.exception.ResourceNotFoundException;
+import com.numpyninja.lms.mappers.BatchMapper;
+import com.numpyninja.lms.repository.ProgBatchRepository;
+import com.numpyninja.lms.repository.ProgramRepository;
 
 @Service
 public class ProgBatchServices {
@@ -20,57 +24,57 @@ public class ProgBatchServices {
     @Autowired
     private ProgramRepository programRepository;
     
+    @Autowired
+    private BatchMapper batchMapper;
+    
     // method for All batch
-    public List<Batch> getAllBatches() {
-    	return progBatchRepository.findAll();
-    	//return progBatchRepository.findAllOrderByProgramProgramIdBatchNameAsc();
+    public List<BatchDTO> getAllBatches() {
+    	return batchMapper.toBatchDTOs(progBatchRepository.findAll());
     }
     
-    public List<Batch> getAllBatches(String searchString) {
-    	return progBatchRepository.findByBatchNameContainingIgnoreCaseOrderByBatchIdAsc(searchString);
+    public List<BatchDTO> getAllBatches(String searchString) {
+    	List<Batch> batches = progBatchRepository.findByBatchNameContainingIgnoreCaseOrderByBatchIdAsc(searchString);
+    	return batchMapper.toBatchDTOs( batches );
     }
 
-
     //method for get single batch by id
-    public Optional<Batch> findBatchById(Integer id) {
-        return progBatchRepository.findById(id);
+    public  BatchDTO findBatchById(Integer batchId) {
+    	Batch batch = progBatchRepository.findById(batchId).orElseThrow(()-> new ResourceNotFoundException("Batch", "Id", batchId));
+        return batchMapper.toBatchDTO( batch );
     }
 
     //method for finding BatchName
-    public Optional<Batch> findByProgramBatchName(String name) {
-        return progBatchRepository.findByBatchName(name);
+    public List<BatchDTO> findByProgramBatchName(String name) {
+    	List<Batch> batchList = progBatchRepository.findByBatchName(name);
+    	return batchMapper.toBatchDTOs( batchList );
     }
 
-    // create new  Batch under Program    // LMSPhase2 changes
-    public Batch createBatch(Batch newProgrambatch, Long programId) {
-    	Program program = programRepository.findById( programId ).get();
-    	newProgrambatch.setProgram(program);
-    	return progBatchRepository.save(newProgrambatch);
+    // create new  Batch under Program     
+    public BatchDTO createBatch(BatchDTO batchDTO ) {
+    	Long programId = batchDTO.getProgramId();
+    	Batch newBatch = batchMapper.toBatch(batchDTO );
+    	Program program = programRepository.findById( programId ).orElseThrow(()-> new ResourceNotFoundException("Program", "Id", programId));
+    	newBatch.setProgram(program);
+    	newBatch.setCreationTime(new Timestamp( new Date().getTime()));
+    	newBatch.setLastModTime(new Timestamp( new Date().getTime()));
+    	Batch batchCreated = progBatchRepository.save(newBatch);
+    	return batchMapper.toBatchDTO( batchCreated );
     }
 
     
-    //Update new Batch                   // LMSPhase2 changes
-    public Batch updateBatch(Batch batchDetailToUpdt, Integer batchId) {
-    	Long progId =  batchDetailToUpdt.getProgram().getProgramId() ;
-    	Batch existBatch = progBatchRepository.findById(batchId).get();
-    	Long exisProgId = existBatch.getProgram().getProgramId();
-    	if ( !progId.equals(exisProgId) ) {
-    		Program program = programRepository.findById( batchDetailToUpdt.getProgram().getProgramId() ).get();  
-    	    existBatch.setProgram(program);
-    	}
-    	existBatch.setBatchName( batchDetailToUpdt.getBatchName());
-    	existBatch.setBatchDescription( batchDetailToUpdt.getBatchDescription());
-    	existBatch.setBatchNoOfClasses( batchDetailToUpdt.getBatchNoOfClasses());
-    	existBatch.setBatchStatus( batchDetailToUpdt.getBatchStatus());
-    	
-    	return progBatchRepository.save(existBatch);
+    //Update new Batch                    
+    public BatchDTO updateBatch(BatchDTO batchDTO, Integer batchId) {
+    	Batch exisBatch = progBatchRepository.findById(batchId).orElseThrow(()-> new ResourceNotFoundException("Batch", "Id", batchId));
+    	Batch batchDetailToUpdt = batchMapper.toBatch(batchDTO );
+    	batchDetailToUpdt.setCreationTime(exisBatch.getCreationTime() );
+    	batchDetailToUpdt.setLastModTime( new Timestamp( new Date().getTime()));
+    	return batchMapper.toBatchDTO( progBatchRepository.save(batchDetailToUpdt) );
     }
 
 
-    // get Batches by Program ID        // LMSPhase2 changes
-    public List<Batch> findBatchByProgramId(Integer programid) {
-        //return progBatchRepository.findAll(ProgBatchRepository.hasProgramId(programid));
-    	return progBatchRepository.findAllByProgramProgramId(programid);      // query needs to be checked whether its working
+    // get Batches by Program ID         
+    public List<BatchDTO> findBatchByProgramId(Long programid) {
+      return batchMapper.toBatchDTOs(progBatchRepository.findByProgramProgramId(programid));      
     }
 
     public void deleteProgramBatch(Integer id) {

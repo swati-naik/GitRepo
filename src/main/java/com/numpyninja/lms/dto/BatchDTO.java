@@ -15,10 +15,10 @@ import lombok.Setter;
 public class BatchDTO {
 	private Integer batchId;
 	
-	@NotBlank(message = "Batch Name is mandatory")
+	//@NotBlank(message = "Batch Name is mandatory")
 	private String batchName;
 	
-	@NotBlank(message = "Batch Description cannot be null")
+	//@NotBlank(message = "Batch Description cannot be null")
 	private String batchDescription;
 	
 	private String batchStatus;
