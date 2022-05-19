@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.numpyninja.lms.dto.BatchDTO;
 import com.numpyninja.lms.services.ProgBatchServices;
+
 
 @RestController
 public class ProgBatchController  {
@@ -65,7 +67,7 @@ public class ProgBatchController  {
     
     //Update program Information
     @PutMapping(path = "/batches/{batchId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<BatchDTO> updateBatch( @RequestBody BatchDTO batchDTO,  @PathVariable Integer batchId ) {
+    public ResponseEntity<BatchDTO> updateBatch( @Valid @RequestBody BatchDTO batchDTO,  @PathVariable Integer batchId ) {
     	BatchDTO batchDTOUpd = batchService.updateBatch( batchDTO, batchId);
     	return ResponseEntity.ok( batchDTOUpd );
     }
@@ -74,7 +76,7 @@ public class ProgBatchController  {
     @DeleteMapping(path = "/batches/{id}" , produces = "application/json" )
     public String deleteBatch( @PathVariable Integer id) {
         batchService.deleteProgramBatch(id);
-        String message = "message" + " Batch with Id: " + id + " deleted Successfully!";
+        String message = "Message:" + " Batch with Id-" + id + " deleted Successfully!";
         return message;
     }
 }

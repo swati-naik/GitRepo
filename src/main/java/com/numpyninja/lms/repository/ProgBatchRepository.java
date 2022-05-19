@@ -15,6 +15,6 @@ public interface ProgBatchRepository extends JpaRepository<Batch, Integer>  {
 
     List<Batch> findByBatchNameContainingIgnoreCaseOrderByBatchIdAsc(String batchName);
 
-    List<Batch> findByProgramProgramId ( Long programId);   
+    List<Batch> findByProgramProgramId ( Long programId); 
     
 }
