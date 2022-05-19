@@ -77,8 +77,9 @@ public class ProgBatchServices {
       return batchMapper.toBatchDTOs(progBatchRepository.findByProgramProgramId(programid));      
     }
 
-    public void deleteProgramBatch(Integer id) {
-        progBatchRepository.deleteById(id);
+    public void deleteProgramBatch(Integer batchId) {
+    	progBatchRepository.findById(batchId).orElseThrow(()-> new ResourceNotFoundException("Batch", "Id", batchId));
+    	progBatchRepository.deleteById(batchId);
     }
 
 }
