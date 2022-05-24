@@ -1,9 +1,10 @@
-package com.numpyninja.lms.program;
+package com.numpyninja.lmstests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+
+@SpringBootTest(classes=LmsProgramBatchServiceApplicationTests.class)
 class LmsProgramBatchServiceApplicationTests {
 
 	@Test

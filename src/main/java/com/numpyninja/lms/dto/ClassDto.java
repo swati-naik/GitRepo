@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ClassScheduleDto {
+public class ClassDto {
 private Long csId;
 private Integer batchId;
 private Integer classNo;

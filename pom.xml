@@ -106,6 +106,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		<exclusions>
+         	<exclusion>
+             <groupId>org.junit.vintage</groupId>
+             <artifactId>junit-vintage-engine</artifactId>
+         	</exclusion>
+    	 </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -135,6 +141,13 @@
 			<scope>provided</scope>
 		</dependency>
 
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+
 	</dependencies>
 
 	<build>
@@ -142,8 +155,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!--<configuration> <excludes> <exclude> <groupId>org.projectlombok</groupId> 
-					<artifactId>lombok</artifactId> </exclude> </excludes> </configuration> -->
+				<!--<configuration>
+						 <excludes> 
+							<exclude> 
+								<groupId>org.projectlombok</groupId> 
+								<artifactId>lombok</artifactId>
+							 </exclude>
+						 </excludes>
+				 </configuration> -->
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

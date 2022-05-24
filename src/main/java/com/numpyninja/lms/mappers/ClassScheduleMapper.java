@@ -7,9 +7,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import com.numpyninja.lms.dto.ClassScheduleDto;
+import com.numpyninja.lms.dto.ClassDto;
 
-import com.numpyninja.lms.entity.ClassSchedule;
+import com.numpyninja.lms.entity.Class;
 
 
 @Mapper(componentModel = "spring", uses= {BatchMapper.class,UserMapper.class})
@@ -18,12 +18,12 @@ public interface ClassScheduleMapper {
 	
 	@Mapping(source="batchInClass.batchId",target="batchId")
 	@Mapping(source="staffInClass.userId", target="classStaffId")
-	ClassScheduleDto toClassSchdDTO(ClassSchedule savedEntity);
+	ClassDto toClassSchdDTO(Class savedEntity);
 		
 		@InheritInverseConfiguration
-		ClassSchedule toClassScheduleEntity(ClassScheduleDto classSchdDTO);
+		Class toClassScheduleEntity(ClassDto classSchdDTO);
 		 
-	   	List<ClassScheduleDto> toClassScheduleDTOList(List<ClassSchedule> classSchdEntites);
+	   	List<ClassDto> toClassScheduleDTOList(List<Class> classSchdEntites);
 		 
-		 List<ClassSchedule> toClassScheduleEntityList(List<ClassScheduleDto> classSchdDTOs);
+		 List<Class> toClassScheduleEntityList(List<ClassDto> classSchdDTOs);
 }

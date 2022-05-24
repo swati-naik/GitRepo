@@ -43,8 +43,8 @@ public class ProgramController{
   	}  
   	
   	//retrieves the details of a specific program
-  	@GetMapping(path="programs/{programId}", produces = "application/json")  
-  	@ResponseBody
+  	@GetMapping(path="programs/{programId}")  
+  	//@ResponseBody
   	private ResponseEntity <ProgramDTO> getOneProgramById(@PathVariable("programId") @NotBlank @Positive Long programId)throws ResourceNotFoundException
   	{  
   	return ResponseEntity.ok().body(programServices.getProgramsById(programId));
@@ -52,7 +52,7 @@ public class ProgramController{
   			
   	//post mapping that creates the program detail in the database  
   	@PostMapping(path="/saveprogram",consumes = "application/json", produces = "application/json")  
-  	@ResponseBody
+  	//@ResponseBody
   	private ResponseEntity<?> createAndSaveProgram(@Valid @RequestBody ProgramDTO newProgram)throws  DuplicateResourceFound
   	{  
   	ProgramDTO savedProgramedDTO = programServices.createAndSaveProgram(newProgram);
@@ -61,7 +61,7 @@ public class ProgramController{
   				
   	//put mapping that updates the program detail by programId  
   	@PutMapping(path="/putprogram/{programId}", consumes = "application/json", produces = "application/json")  
-  	@ResponseBody
+  	//@ResponseBody
   	private ResponseEntity <ProgramDTO> updateProgramById(@PathVariable("programId")@NotBlank @Positive Long programId ,@Valid @RequestBody ProgramDTO modifyProgram) throws ResourceNotFoundException
   	{  
   	return ResponseEntity.ok(programServices.updateProgramById(programId,modifyProgram));
@@ -69,14 +69,14 @@ public class ProgramController{
   			
   	//creating put mapping that updates the program detail  by programName 
   	@PutMapping(path="/program/{programName}", consumes = "application/json", produces = "application/json")  
-  	@ResponseBody
-  	private ResponseEntity <ProgramDTO> updateProgramByName(@PathVariable("programName")@NotBlank @NotNull String programName ,@Valid @RequestBody ProgramDTO modifyProgram)throws ResourceNotFoundException  
+  	//@ResponseBody
+  	private ResponseEntity <ProgramDTO> updateProgramByName(@Valid @PathVariable("programName") String programName ,@Valid @RequestBody ProgramDTO modifyProgram)throws ResourceNotFoundException  
   	{  
   	return ResponseEntity.ok(programServices.updateProgramByName(programName,modifyProgram));
   	} 
   			 
   	//delete mapping that deletes a specified program  
-  	@DeleteMapping(path="/deletebyprogid/{programId}",produces = "application/json")  
+  	@DeleteMapping(path="/deletebyprogid/{programId}")  
   	@ResponseBody
   	private ResponseEntity<?>  deleteByProgramId(@PathVariable("programId")@NotBlank @Positive Long programId) throws ResourceNotFoundException  
   	{  
@@ -89,8 +89,8 @@ public class ProgramController{
   	}  
   			 
   	//delete mapping that deletes a specified program by ProgramName  
-  	@DeleteMapping(path="/deletebyprogname/{programName}",produces = "application/json")  
-  	@ResponseBody
+  	@DeleteMapping(path="/deletebyprogname/{programName}")  
+  	//@ResponseBody
   	private ResponseEntity<?>  deleteByProgramName(@PathVariable("programName")@NotBlank @NotNull String programName) throws ResourceNotFoundException  
   	{  
   	System.out.println("in delete by programName controller");

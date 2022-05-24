@@ -16,7 +16,7 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 @Table(name = "tbl_lms_class_sch")
-public class ClassSchedule {
+public class Class {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "class_id_generator")

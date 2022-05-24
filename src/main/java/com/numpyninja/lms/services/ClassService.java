@@ -2,16 +2,16 @@ package com.numpyninja.lms.services;
 
 
 
-import com.numpyninja.lms.dto.ClassScheduleDto;
+import com.numpyninja.lms.dto.ClassDto;
 
-import com.numpyninja.lms.entity.ClassSchedule;
+import com.numpyninja.lms.entity.Class;
 import com.numpyninja.lms.entity.Batch;
 
 import com.numpyninja.lms.entity.User;
 import com.numpyninja.lms.exception.DuplicateResourceFound;
 import com.numpyninja.lms.exception.ResourceNotFoundException;
 import com.numpyninja.lms.mappers.ClassScheduleMapper;
-import com.numpyninja.lms.repository.ClassScheduleRepository;
+import com.numpyninja.lms.repository.ClassRepository;
 import com.numpyninja.lms.repository.ProgBatchRepository;
 import com.numpyninja.lms.repository.UserRepository;
 
@@ -25,9 +25,9 @@ import java.util.Optional;
 
 
 @Service
-public class ClassManagementService {
+public class ClassService {
     @Autowired
-    private ClassScheduleRepository classRepository;
+    private ClassRepository classRepository;
     
     @Autowired 
     ProgBatchRepository batchRepository;
@@ -41,14 +41,14 @@ public class ClassManagementService {
     
     
     //create a new class schedule for existing batchId and staffId 
-    public ClassScheduleDto createClass(ClassScheduleDto newClassDto) throws DuplicateResourceFound {
-    	 ClassSchedule newClassScheduleEntity;
+    public ClassDto createClass(ClassDto newClassDto) throws DuplicateResourceFound {
+    	 Class newClassScheduleEntity;
     	 
     	 Batch batchEntity;
     	 User userEntity;
     	 
-		ClassScheduleDto savedclassSchdDto =null;
-		 ClassSchedule savedEntity =null;
+		ClassDto savedclassSchdDto =null;
+		 Class savedEntity =null;
 		 
   if(newClassDto != null && newClassDto.getCsId()!=null && newClassDto.getBatchId()!=null && newClassDto.getClassStaffId()!=null) {
 			 
@@ -62,7 +62,7 @@ public class ClassManagementService {
 					batchEntity = batchRepository.findById(batchIdInClass).get();
 					userEntity = userRepository.findById(StaffInClass).get();
 					
-				List<ClassSchedule> result = 
+				List<Class> result = 
 						classRepository.findByClassIdAndBatchId(newClassScheduleEntity.getCsId(), (newClassScheduleEntity.getBatchInClass()).getBatchId());
 				if(result.size()>0) {
 					System.out.println("the same combination with ClassId and BatchId exists");
@@ -100,8 +100,8 @@ public class ClassManagementService {
 		 
 		
     //get All Class schedules -not mentioned in Excel
-    public List<ClassScheduleDto> getAllClasses() throws ResourceNotFoundException{
-      List<ClassSchedule> ClassScheduleList= classRepository.findAll();
+    public List<ClassDto> getAllClasses() throws ResourceNotFoundException{
+      List<Class> ClassScheduleList= classRepository.findAll();
 		if(ClassScheduleList.size()<=0) {
 			throw new ResourceNotFoundException("ClassSchedule list is not found");
 		}
@@ -111,8 +111,8 @@ public class ClassManagementService {
       }
     
     //get class by classId
-      public ClassScheduleDto getClassByClassId(Long id) throws ResourceNotFoundException{
-    	  ClassSchedule ClassScheduleById= classRepository.findById(id).get();
+      public ClassDto getClassByClassId(Long id) throws ResourceNotFoundException{
+    	  Class ClassScheduleById= classRepository.findById(id).get();
   		if(ClassScheduleById== null) {
   			throw new ResourceNotFoundException("ClassSchedule is not found for classId :"+id);
   		}
@@ -121,11 +121,11 @@ public class ClassManagementService {
   		}
       }
     //get all classes by classTopic - not mentioned in Excel
-      public List<ClassScheduleDto> getClassesByClassTopic(String classTopic)throws ResourceNotFoundException
+      public List<ClassDto> getClassesByClassTopic(String classTopic)throws ResourceNotFoundException
   	{
   		if(!(classTopic.isEmpty())) {
   					
-  		List<ClassSchedule>result= classRepository.findByClassTopicContainingIgnoreCaseOrderByClassTopicAsc(classTopic);
+  		List<Class>result= classRepository.findByClassTopicContainingIgnoreCaseOrderByClassTopicAsc(classTopic);
   		if(result.size()<=0) {
   			System.out.println("list of classes with "+ classTopic+" not found");
   			 throw new ResourceNotFoundException("classes with class topic Name: "+classTopic +" not found"); 
@@ -140,11 +140,11 @@ public class ClassManagementService {
   		
     //get all classes by batchId
       @Transactional
-      public List<ClassScheduleDto> getClassesByBatchId(Integer batchId) throws ResourceNotFoundException,IllegalArgumentException
+      public List<ClassDto> getClassesByBatchId(Integer batchId) throws ResourceNotFoundException,IllegalArgumentException
   	{
   		if(batchId!=null)
   		{ 
-  			List<ClassSchedule> result=classRepository.findByBatchInClass_batchId(batchId);
+  			List<Class> result=classRepository.findByBatchInClass_batchId(batchId);
   			if(!(result.size()<0))
   			{
   				return (classMapper.toClassScheduleDTOList(result));
@@ -161,11 +161,11 @@ public class ClassManagementService {
    	}
       
     //get all classes by classStaffId
-      public List<ClassScheduleDto> getClassesByStaffId(String staffId) throws ResourceNotFoundException,IllegalArgumentException
+      public List<ClassDto> getClassesByStaffId(String staffId) throws ResourceNotFoundException,IllegalArgumentException
     	{
     		if(staffId!=null)
     		{ 
-    			List<ClassSchedule> result=classRepository.findBystaffInClass_userId(staffId);  
+    			List<Class> result=classRepository.findBystaffInClass_userId(staffId);  
     			if(!(result.size()<0))
     			{
     				return (classMapper.toClassScheduleDTOList(result));
@@ -187,15 +187,15 @@ public class ClassManagementService {
      
 
     //Update Class Schedules by Id
-    public ClassScheduleDto updateClassByClassId(Long id,ClassScheduleDto modifiedClassDTO) throws ResourceNotFoundException{
+    public ClassDto updateClassByClassId(Long id,ClassDto modifiedClassDTO) throws ResourceNotFoundException{
     	{
 			System.out.println("in updateClassServiceById method");
-			ClassSchedule updateClassSchedule;
-			ClassScheduleDto savedClassDTO = null;
-			ClassSchedule savedClassSchedule =null;
+			Class updateClassSchedule;
+			ClassDto savedClassDTO = null;
+			Class savedClassSchedule =null;
 			if(id!=null)
 			{
-				ClassSchedule newClassSchedule  = classMapper.toClassScheduleEntity(modifiedClassDTO);
+				Class newClassSchedule  = classMapper.toClassScheduleEntity(modifiedClassDTO);
 			Boolean isPresentTrue=classRepository.findById(id).isPresent();
 			
 			if(isPresentTrue)

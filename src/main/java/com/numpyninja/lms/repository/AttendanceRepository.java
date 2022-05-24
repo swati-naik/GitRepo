@@ -1,7 +1,7 @@
 package com.numpyninja.lms.repository;
 
 import com.numpyninja.lms.entity.AttendanceEntity;
-import com.numpyninja.lms.entity.ClassSchedule;
+import com.numpyninja.lms.entity.Class;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
