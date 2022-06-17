@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,7 +79,6 @@ public class ProgBatchControllerTests {
 	}
 
 	
-	
 	// positive scenario - GET batch by valid batchId  
 	@Test  
 	public void givenBatchId_whenGetBatchById_thenReturnBatch() throws Exception{
@@ -99,6 +99,46 @@ public class ProgBatchControllerTests {
     }
 	
 	
+	/* getBatchByName */
+	@Test  
+	public void givenBatchName_whenGetBatchByName_thenReturnBatches() throws Exception{
+		String batchName = "01";
+		List<BatchDTO> batch01List = new ArrayList<BatchDTO>();
+		batch01List.add(listOfBatches.get(0));
+		batch01List.add(listOfBatches.get(2));
+		
+		given ( batchService.findByProgramBatchName(batchName)).willReturn(batch01List);
+		
+		//when
+		ResultActions response = mockMvc.perform(get("/batches/batchName/{batchName}", batchName)  
+                .contentType(MediaType.APPLICATION_JSON));
+	
+		//Then
+		response.andDo(print()).andExpect( status().isOk());
+		response.andExpect(jsonPath("$", hasSize(2)));
+	}
+	
+	
+	/* getBatchByProgram */
+ 	@Test  
+	public void givenProgramId_whenGetBatchByProgram_thenReturnBatchches() throws Exception{
+		long programId = 1;
+		List<BatchDTO> batchList = new ArrayList<BatchDTO>();
+		batchList.add(listOfBatches.get(0));
+		batchList.add(listOfBatches.get(1));
+		
+		given ( batchService.findBatchByProgramId(programId)).willReturn(batchList);
+		
+		//when
+		ResultActions response = mockMvc.perform(get("/batches/program/{programId}", programId)  
+                .contentType(MediaType.APPLICATION_JSON));
+	
+		//Then
+		response.andDo(print()).andExpect( status().isOk());
+		response.andExpect(jsonPath("$", hasSize(2)));
+	}
+	
+ 	
 	@Test
     public void givenBatch_whenCreateBatch_thenReturnSavedBatch() throws Exception{
 		BatchDTO batchDTO3 = listOfBatches.get(2);
