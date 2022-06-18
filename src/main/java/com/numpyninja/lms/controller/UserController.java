@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.numpyninja.lms.dto.UserAndRoleDTO;
 import com.numpyninja.lms.dto.UserDto;
 import com.numpyninja.lms.entity.User;
 import com.numpyninja.lms.exception.DuplicateResourceFound;
@@ -24,11 +26,7 @@ import com.numpyninja.lms.services.UserServices;
 
 @RestController
 //@RequestMapping("/users")
-public class UserController {
-	
-	//@Autowired
-	//UserServices userServices;
-	
+public class UserController {	
 	
 	private UserMapper userMapper;
 	private UserServices userServices;
@@ -49,13 +47,11 @@ public class UserController {
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> userList = userServices.getAllUsers();
 		return ResponseEntity.ok(userList);  
-		
 	}
 	
 	@GetMapping("/users/{id}")
 	public ResponseEntity<UserDto> getAllUsersById(@PathVariable String id) throws ResourceNotFoundException {
 		UserDto userDto = userServices.getAllUsersById(id);
-		//return userDto;
 		return ResponseEntity.status(200).body(userDto);
 	}
 	
@@ -70,22 +66,41 @@ public class UserController {
     }
     
     @PostMapping("/users")
-    public UserDto createUser(@RequestBody UserDto newuserDto) throws InvalidDataException, DuplicateResourceFound {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto newuserDto) throws InvalidDataException, DuplicateResourceFound {
     	UserDto responseDto = userServices.createUser(newuserDto);
-    	return responseDto;
+    	return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);  
+    }
+    
+    @PostMapping("/users/roleStatus")
+    public ResponseEntity<UserDto> createUserWithRole(@RequestBody UserAndRoleDTO newUserRoleDto) throws InvalidDataException, DuplicateResourceFound {
+    	UserDto responseDto = userServices.createUserWithRole(newUserRoleDto);
+    	return ResponseEntity.status(HttpStatus.CREATED).body(responseDto); 
     }
     
     @PutMapping("/users/{userId}")
-    public UserDto updateUser(@RequestBody UserDto updateuserDto, @PathVariable(value="userId") String userId) throws DuplicateResourceFound, ResourceNotFoundException, InvalidDataException {
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto updateuserDto, @PathVariable(value="userId") String userId) throws DuplicateResourceFound, ResourceNotFoundException, InvalidDataException {
     	UserDto responseDto = userServices.updateUser(updateuserDto, userId);
-    	return responseDto;
+    	return ResponseEntity.status(HttpStatus.OK).body(responseDto); 
     }
+    
+   /* @PutMapping("/users/roleStatus/{userId}")
+    public ResponseEntity<UserDto> updateUserWithRole(@RequestBody UserAndRoleDTO updateUserRoleDto, @PathVariable(value="userId") String userId) throws DuplicateResourceFound, ResourceNotFoundException, InvalidDataException {
+    	UserDto responseDto = userServices.updateUserWithRole(updateUserRoleDto, userId);
+    	return ResponseEntity.status(HttpStatus.OK).body(responseDto); 
+    }*/
     
     @DeleteMapping("/users/{userId}")
-    public String deleteUser(@PathVariable(value="userId") String userId) throws ResourceNotFoundException{
+    public ResponseEntity<String> deleteUser(@PathVariable(value="userId") String userId) throws ResourceNotFoundException{
     	String deletedUserId = userServices.deleteUser(userId);
-    	return deletedUserId;
+    	return ResponseEntity.status(HttpStatus.OK).body("Deleted User ID:  "+deletedUserId);
+    	//return deletedUserId;
     }
     
+   /* @PutMapping("/users/roleStatus/{userId}")
+    public UserDto updateUserstatus(@RequestBody UserDto updateuserDto, @PathVariable(value="userId") String userId) throws DuplicateResourceFound, ResourceNotFoundException, InvalidDataException {
+    	//UserDto responseDto = userServices.updateUserStatus(updateuserDto, userId);
+    	//return responseDto;
+    	return null;
+    }*/
     
 }
