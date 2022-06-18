@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AssignmentDto {
 	
-	private long assignmentId;
+	private Long assignmentId;
 
 	private String assignmentName;
 	
