@@ -15,5 +15,12 @@ public class GlobalExceptionHandler {
 		ApiResponse apiResponse = new ApiResponse(message, false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(DuplicateResourceFoundException.class)
+	public ResponseEntity<ApiResponse> duplicateResourceFoundExceptionHandler(DuplicateResourceFoundException ex) {
+		String message = ex.getMessage();
+		ApiResponse apiResponse = new ApiResponse(message, false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+	}
 
 }

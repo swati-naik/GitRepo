@@ -1,6 +1,7 @@
 package com.numpyninja.lms.entity;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ public class Assignment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="a_id")
-	private long assignmentId;
+	private Long assignmentId;
 	
 	@NotEmpty
 	@Column(name="a_name")
@@ -80,5 +81,11 @@ public class Assignment {
 	@ManyToOne (fetch=FetchType.LAZY)     
     @JoinColumn (name="a_grader_id", nullable=false)  
     private User user;  
+	
+	@Column(name="creation_time")
+	private Timestamp creationTime;
+	
+	@Column(name="last_mod_time")
+	private Timestamp lastModTime;
 	
 }
