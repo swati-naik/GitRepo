@@ -38,7 +38,7 @@ import com.numpyninja.lms.services.ProgramServices;
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest ( ProgBatchController.class )
 //@WithMockUser  // to overcome Login
-public class ProgBatchControllerTests {
+public class ProgBatchControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;    //MockMVC - WebLayer unit Testing without starting the server 

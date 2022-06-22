@@ -1,24 +1,47 @@
-2022-06-17 14:23:43.027  INFO 15592 --- [main] c.n.l.c.ProgBatchControllerTests         : Starting ProgBatchControllerTests using Java 11.0.13 on Shenthamarai with PID 15592 (started by shent in C:\workspace2\LMS_06_16_2022\LMS)
-2022-06-17 14:23:43.037  INFO 15592 --- [main] c.n.l.c.ProgBatchControllerTests         : No active profile set, falling back to default profiles: default
-2022-06-17 14:23:45.707  INFO 15592 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-06-17 14:23:45.708  INFO 15592 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-06-17 14:23:45.710  INFO 15592 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
-2022-06-17 14:23:45.908  INFO 15592 --- [main] c.n.l.c.ProgBatchControllerTests         : Started ProgBatchControllerTests in 3.404 seconds (JVM running for 4.372)
-2022-06-17 14:24:32.540  INFO 28376 --- [main] c.n.l.c.ProgBatchControllerTests         : Starting ProgBatchControllerTests using Java 11.0.13 on Shenthamarai with PID 28376 (started by shent in C:\workspace2\LMS_06_16_2022\LMS)
-2022-06-17 14:24:32.543  INFO 28376 --- [main] c.n.l.c.ProgBatchControllerTests         : No active profile set, falling back to default profiles: default
-2022-06-17 14:24:34.870  INFO 28376 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-06-17 14:24:34.870  INFO 28376 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-06-17 14:24:34.871  INFO 28376 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2022-06-17 14:24:35.070  INFO 28376 --- [main] c.n.l.c.ProgBatchControllerTests         : Started ProgBatchControllerTests in 2.976 seconds (JVM running for 3.893)
-2022-06-17 14:28:14.564  INFO 16528 --- [main] c.n.l.c.ProgBatchControllerTests         : Starting ProgBatchControllerTests using Java 11.0.13 on Shenthamarai with PID 16528 (started by shent in C:\workspace2\LMS_06_16_2022\LMS)
-2022-06-17 14:28:14.566  INFO 16528 --- [main] c.n.l.c.ProgBatchControllerTests         : No active profile set, falling back to default profiles: default
-2022-06-17 14:28:16.945  INFO 16528 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-06-17 14:28:16.946  INFO 16528 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-06-17 14:28:16.947  INFO 16528 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2022-06-17 14:28:17.149  INFO 16528 --- [main] c.n.l.c.ProgBatchControllerTests         : Started ProgBatchControllerTests in 3.044 seconds (JVM running for 3.963)
-2022-06-17 15:35:16.689  INFO 27052 --- [main] c.n.l.c.ProgBatchControllerTests         : Starting ProgBatchControllerTests using Java 11.0.13 on Shenthamarai with PID 27052 (started by shent in C:\workspace2\LMS_06_16_2022\LMS)
-2022-06-17 15:35:16.691  INFO 27052 --- [main] c.n.l.c.ProgBatchControllerTests         : No active profile set, falling back to default profiles: default
-2022-06-17 15:35:19.076  INFO 27052 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-06-17 15:35:19.076  INFO 27052 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-06-17 15:35:19.078  INFO 27052 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2022-06-17 15:35:19.283  INFO 27052 --- [main] c.n.l.c.ProgBatchControllerTests         : Started ProgBatchControllerTests in 3.028 seconds (JVM running for 3.944)
+2022-06-22 11:36:45.329  INFO 35468 --- [restartedMain] c.numpyninja.lms.LmsServicesApplication  : Starting LmsServicesApplication using Java 11.0.13 on Shenthamarai with PID 35468 (C:\workspace2\LMS_06_16_2022\LMS\target\classes started by shent in C:\workspace2\LMS_06_16_2022\LMS)
+2022-06-22 11:36:45.334  INFO 35468 --- [restartedMain] c.numpyninja.lms.LmsServicesApplication  : No active profile set, falling back to default profiles: default
+2022-06-22 11:36:45.367  INFO 35468 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-22 11:36:45.367  INFO 35468 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-22 11:36:45.921  INFO 35468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-06-22 11:36:45.921  INFO 35468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-22 11:36:45.974  INFO 35468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 9 JPA repository interfaces.
+2022-06-22 11:36:46.126  INFO 35468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-06-22 11:36:46.126  INFO 35468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2022-06-22 11:36:46.138  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.AssignmentRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.AttendanceRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.ClassRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.ProgBatchRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.ProgramRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.RoleRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.SkillMasterRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.UserRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.139  INFO 35468 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.numpyninja.lms.repository.UserRoleMapRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2022-06-22 11:36:46.140  INFO 35468 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 0 JDBC repository interfaces.
+2022-06-22 11:36:46.570  INFO 35468 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 1234 (http)
+2022-06-22 11:36:46.579  INFO 35468 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-22 11:36:46.579  INFO 35468 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2022-06-22 11:36:46.640  INFO 35468 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/lms]    : Initializing Spring embedded WebApplicationContext
+2022-06-22 11:36:46.640  INFO 35468 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1273 ms
+2022-06-22 11:36:46.753  INFO 35468 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-22 11:36:46.817  INFO 35468 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2022-06-22 11:36:46.972  INFO 35468 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-22 11:36:47.073  INFO 35468 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-22 11:36:47.211  INFO 35468 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-22 11:36:47.249  INFO 35468 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-06-22 11:36:48.195  INFO 35468 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-22 11:36:48.208  INFO 35468 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-22 11:36:48.728  WARN 35468 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-22 11:36:48.882  INFO 35468 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-06-22 11:36:49.236  INFO 35468 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 1234 (http) with context path '/lms'
+2022-06-22 11:36:49.457  INFO 35468 --- [restartedMain] c.numpyninja.lms.LmsServicesApplication  : Started LmsServicesApplication in 4.468 seconds (JVM running for 5.197)
+2022-06-22 11:38:04.596  INFO 35468 --- [http-nio-1234-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/lms]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-22 11:38:04.597  INFO 35468 --- [http-nio-1234-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-22 11:38:04.598  INFO 35468 --- [http-nio-1234-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-06-22 11:41:40.924  WARN 35468 --- [http-nio-1234-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2022-06-22 11:41:40.924 ERROR 35468 --- [http-nio-1234-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "tbl_lms_batch_batch_name_batch_program_id_key"
+  Detail: Key (batch_name, batch_program_id)=(b2, 1) already exists.
+2022-06-22 11:41:40.935  WARN 35468 --- [http-nio-1234-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [tbl_lms_batch_batch_name_batch_program_id_key]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement]
+2022-06-22 11:49:50.160  INFO 35468 --- [RMI TCP Connection(21)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2022-06-22 11:49:50.253  INFO 35468 --- [RMI TCP Connection(21)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-22 11:49:50.256  INFO 35468 --- [RMI TCP Connection(21)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-22 11:49:50.260  INFO 35468 --- [RMI TCP Connection(21)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

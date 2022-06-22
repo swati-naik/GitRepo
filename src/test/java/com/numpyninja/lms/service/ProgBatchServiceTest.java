@@ -25,6 +25,7 @@ import org.springframework.data.domain.Sort;
 import com.numpyninja.lms.dto.BatchDTO;
 import com.numpyninja.lms.entity.Batch;
 import com.numpyninja.lms.entity.Program;
+import com.numpyninja.lms.exception.ResourceNotFoundException;
 import com.numpyninja.lms.mappers.BatchMapper;
 import com.numpyninja.lms.repository.ProgramRepository;
 import com.numpyninja.lms.services.ProgBatchServices;
@@ -32,7 +33,7 @@ import com.numpyninja.lms.repository.ProgBatchRepository;
 
 
 @ExtendWith(MockitoExtension.class)        //Extension that initializes mocks and handles strict stubbings. This extension is the JUnit Jupiter equivalent of our JUnit4 MockitoJUnitRunner. 
-public class ProgBatchServiceTests {
+public class ProgBatchServiceTest {
 	@Mock
 	private ProgBatchRepository batchRepository;
 	
@@ -109,37 +110,41 @@ public class ProgBatchServiceTests {
     }
     
     
-	@DisplayName("JUnit test to create Batch")
+    @DisplayName("JUnit test to create Batch")
 	@Test
 	@Order(3)
 	public void givenBatchDTO_WhenSave_ThenReturnSavedBatchDTO() throws Exception {
 		// given
-		Integer programId = 2; 
-		String batchName = "02";
-		given(programRepository.findById(2)).willReturn( Optional.of(program2) );
-		given(batchRepository.findByBatchNameAndProgram_ProgramId(batchName, programId)).willReturn(null);
-		given( batchRepository.save( batch2)).willReturn(batch2);
+		Long programId = (long)2; 
+		given(programRepository.findById(programId)).willReturn( Optional.of(program2) );
+		given (  batchMapper.toBatch( batchDTO3 )).willReturn(batch3);
+		given( batchRepository.save( batch3)).willReturn(batch3);
+		given (  batchMapper.toBatchDTO( batch3 )).willReturn(batchDTO3);
+		
 		// when
-		Batch savedBatch = batchService.createBatch(batch2, programId);
+		BatchDTO savedBatchDTO = batchService.createBatch(batchDTO3);
 		// Then
-		assertThat(savedBatch).isNotNull();  
-		assertThat(savedBatch.getBatchId()).isEqualTo(2);
+		assertThat(savedBatchDTO).isNotNull();  
+		assertThat(savedBatchDTO.getBatchId()).isEqualTo(3);
 	}
     
-	/*
+	
 	@DisplayName("JUnit test for update Batch")
-	//@Test
+	@Test
 	@Order(4)
 	public void givenUpdatedBatch_WhenUpdateBatch_ThenReturnUpdateBatchObject()  throws Exception {
 		// given
-		Integer batchId = 1, programIdToUpdate = 2 ;
-		given(batchRepository.findById(batchId)).willReturn(Optional.of(batch1));
-		given( programRepository.findById( programIdToUpdate )).willReturn(Optional.of( program2 ));
-		given( batchRepository.findByBatchNameAndProgram_ProgramId(batch1.getBatchName(), programIdToUpdate)).willReturn(null);
+		Integer batchId = 1; Long programIdToUpdate = (long)2 ;
+		BatchDTO updateDetailDTO = new BatchDTO(1,"01","Datascience BATCH 01 Updation","Active", 6, (long)2, "Datascience");
+		Batch updatedBatch = new Batch(1,"01","Datascience BATCH 01 Updation","Active", program2, 6, Timestamp.valueOf("2022-10-04 22:16:02.713"), Timestamp.valueOf("2022-02-04 22:16:02.713") );
 		
-		given( batchRepository.save(batch1)).willReturn(batch1);
+		given(batchRepository.findById(batchId)).willReturn(Optional.of(batch1));
+	    given ( batchMapper.toBatch( updateDetailDTO )).willReturn(updatedBatch);
+		given( programRepository.findById( programIdToUpdate )).willReturn(Optional.of( program2 ));
+		
+		given( batchRepository.save(updatedBatch)).willReturn(updatedBatch);
 		// when
-		Batch updatedBatch = batchService.updateBatch(batchId,batch1,programIdToUpdate);
+		updateDetailDTO = batchService.updateBatch(updateDetailDTO,batchId);
 		// Then
 		assertThat(updatedBatch).isNotNull();
 		assertThat(updatedBatch.getProgram().getProgramId()).isEqualTo(2);
@@ -147,16 +152,16 @@ public class ProgBatchServiceTests {
 	
 	
 	@DisplayName("JUnit test for delete Batch")
-	//@Test
+	@Test
 	@Order(5)
 	public void givenBatchId_WhenDeleteBatch_ThenDeleteBatchInDB() throws Exception{
 		//given
 		Integer batchId = 2;
 		given(batchRepository.findById(batchId)).willReturn(Optional.of(batch2));
-		willDoNothing().given(batchRepository).delete(batch2);
+		willDoNothing().given(batchRepository).deleteById(batchId);
 		//when
-		batchService.deleteBatch(batchId);
+		batchService.deleteProgramBatch(batchId);
 		//then
-		verify(batchRepository, times(1)).delete(batch2);
-	}*/
+		verify(batchRepository).deleteById(batchId);
+	}
 }
