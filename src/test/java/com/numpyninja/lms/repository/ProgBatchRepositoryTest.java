@@ -26,83 +26,81 @@ import com.numpyninja.lms.repository.ProgramRepository;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProgBatchRepositoryTest {
 
-	/*@Autowired
-	private BatchRepository batchRepository;
+	@Autowired
+	private ProgBatchRepository progBatchRepository;
 
 	@Autowired
 	ProgramRepository programRepository;
 
 	@DisplayName("JUnit test to create Batch")
-	//@Test
+	@Test
 	@Order(1)
 	public void givenBatchObject_WhenSave_ThenReturnSavedBatch() {
 		// given
-		Program program1 = programRepository.findById( 1 ).get();
+		Program program1 = programRepository.findById( (long)1 ).get();
 		Batch batch1 = new Batch(1,"01","SDET BATCH 01","Active", program1, 6, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()) );
 		// when
-		batchRepository.save( batch1);
+		progBatchRepository.save( batch1);
 		// Then
 		assertThat(batch1).isNotNull();
 		assertThat(batch1.getBatchId()).isEqualTo(1);
 
-		Program program2 = programRepository.findById( 1 ).get();
-		Batch batch2 = new Batch(2,"02","SDET BATCH 02","Active", program2, 6, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()) );
-		batchRepository.save( batch2);
+		Program program2 = programRepository.findById( (long)2 ).get();
+		Batch batch2 = new Batch(2,"01","Datascience Batch 01","Active", program2, 6, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()) );
+		progBatchRepository.save( batch2);
 		assertThat(batch2).isNotNull();
 		assertThat(batch2.getBatchId()).isEqualTo(2);
 	}
 
 	
 	@DisplayName("JUnit test for get all Batches ")
-	//@Test
+	@Test
 	@Order(2)
 	public void givenBatchList_WhenGetAllBatches_ThenReturnBatchesList(){
-		List<Batch> list = batchRepository.findAll( Sort.by( "batchId" ) );
+		List<Batch> list = progBatchRepository.findAll( Sort.by( "batchId" ) );
 		System.out.println("Size:" + list.size());
 		assertThat( list.size() ).isGreaterThan(0);
 	}
 
 
 	@DisplayName("JUnit test for get batch by id ")
-	//@Test
+	@Test
 	@Order(3)
 	public void givenBatchId_WhenFindBatchById_ThenReturnBatchObject(){
 		//given
 		Integer batchId = 1;
 		//when
-		Batch batch = batchRepository.findById(batchId).get();
+		Batch batch = progBatchRepository.findById(batchId).get();
 		// then - verify the output
 		assertThat(batch).isNotNull();
 		assertThat(batch.getBatchId()).isEqualTo(1);
 	}
 
 
-	@DisplayName("JUnit test for get Batch by BatchName and ProgramId ")
-	//@Test
+	@DisplayName("JUnit test for get Batches by ProgramId ")
+	@Test
 	@Order(4)
-	public void givenBatchNameAndProgramId_WhenFindBatch_ReturnBatchObject() {
+	public void givenProgramId_WhenFindBatch_ReturnBatchObjects() {
 		// given
-		String batchName = "02";
-		Integer programId = 2;
+		Long programId = (long)2;
 		//when
-		Batch batch = batchRepository.findByBatchNameAndProgram_ProgramId(batchName, programId);
+		List<Batch> batchList = progBatchRepository.findByProgramProgramId( programId);
 		// then
-		assertThat(batch).isNotNull();
-		assertThat(batch.getBatchName()).isEqualTo("02");
-		assertThat(batch.getProgram().getProgramId()).isEqualTo(2);
+		assertThat(batchList).isNotNull();
+		assertThat( batchList.size() ).isGreaterThan(0);
 	}
 
 	
 	@DisplayName("JUnit test for update Batch")
-	//@Test
+	@Test
 	@Order(5)
 	public void givenUpdatedBatch_whenUpdateBatch_thenReturnUpdateBatchObject() {
-		Batch batch = batchRepository.findById(1).get();
+		Batch batch = progBatchRepository.findById(1).get();
 		//given
 		batch.setBatchNoOfClasses(7);
 		batch.setBatchName("SDET Batch 01 USA");
 		//when
-		batchRepository.save( batch);
+		progBatchRepository.save( batch);
 		//then
 		assertThat(batch.getBatchName()).isEqualTo("SDET Batch 01 USA");
 		assertThat(batch.getBatchNoOfClasses()).isEqualTo(7);
@@ -110,16 +108,16 @@ public class ProgBatchRepositoryTest {
 
 	
 	@DisplayName("JUnit test for delete Batch")
-	//@Test
+	@Test
 	@Order(6)
 	public void givenBatchId_whenDeleteBatch_thenDeleteBatchInDB() throws Exception{
 		//given
 		Integer batchId = 1;
 		//when
-		Batch batch = batchRepository.findById(batchId).get();
-		batchRepository.delete( batch );
-		Optional<Batch> batchCheck = batchRepository.findById(batchId);
+		Batch batch = progBatchRepository.findById(batchId).get();
+		progBatchRepository.delete( batch );
+		Optional<Batch> batchCheck = progBatchRepository.findById(batchId);
 		//then
 		assertThat( batchCheck ).isEmpty();
-	}*/
+	} 
 }
