@@ -31,7 +31,7 @@ class AssignmentRepositoryTest {
 	@Autowired
 	private AssignmentRepository repo;
 	
-	Assignment mockAssignment;
+	private Assignment mockAssignment;
 	
 	@BeforeEach
 	public void setup() {
