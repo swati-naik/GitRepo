@@ -67,6 +67,9 @@ public class ProgBatchServices {
     public BatchDTO updateBatch(BatchDTO batchDTO, Integer batchId) {
     	Batch exisBatch = progBatchRepository.findById(batchId).orElseThrow(()-> new ResourceNotFoundException("Batch", "Id", batchId));
     	Batch batchDetailToUpdt = batchMapper.toBatch(batchDTO );
+    	Long programId = batchDTO.getProgramId();
+    	Program program = programRepository.findById( programId ).orElseThrow(()-> new ResourceNotFoundException("Program", "Id", programId));
+    	batchDetailToUpdt.setProgram(program);
     	batchDetailToUpdt.setCreationTime(exisBatch.getCreationTime() );
     	batchDetailToUpdt.setLastModTime( new Timestamp( new Date().getTime()));
     	return batchMapper.toBatchDTO( progBatchRepository.save(batchDetailToUpdt) );
