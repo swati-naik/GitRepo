@@ -28,8 +28,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Table(name = "tbl_lms_batch")
 public class Batch {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch_id_generator")
+   @Id
+     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch_id_generator")
     @SequenceGenerator(name = "batch_id_generator", sequenceName = "tbl_lms_batch_batch_id_seq", allocationSize = 1)
     Integer batchId;
     
