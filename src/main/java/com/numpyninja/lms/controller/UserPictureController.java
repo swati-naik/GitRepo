@@ -1,38 +1,19 @@
 package com.numpyninja.lms.controller;
 
-
-import java.io.File;
 import java.io.IOException;
-import java.net.http.HttpHeaders;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.numpyninja.lms.entity.User;
 import com.numpyninja.lms.entity.UserPictureEntity;
-import com.numpyninja.lms.playload.FileResponse;
 import com.numpyninja.lms.repository.UserPictureRepository;
 import com.numpyninja.lms.services.UserPictureService;
-
-
-
-
 
 @RestController
 @RequestMapping("/file")
@@ -97,10 +78,10 @@ public class UserPictureController {
     
     
     @PostMapping("/userpicture")
-    public void uploadDB(@RequestParam("file")MultipartFile multipartFile,String id) throws IOException
+    public void uploadDB(@RequestParam("file")MultipartFile multipartFile) throws IOException
     {
           
-    userpictureservice.uploadtoDB(multipartFile,id);
+    userpictureservice.uploadtoDB(multipartFile);
     	// userpictureservice.uploadtoDB(multipartFile);
     }
     
@@ -116,21 +97,24 @@ public class UserPictureController {
                 .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename= "+uploadedFileToRet.getFileName())
                 .body(new ByteArrayResource(uploadedFileToRet.getFileData()));
     }*/
-    @GetMapping("/userpicture/{id}")
-    public UserPictureEntity downloadFile(@PathVariable String FileId )
+  
+   // @GetMapping("/userpicture/{id}")
+    //public UserPictureEntity downloadFile(@PathVariable String FileId )
     {
     	
     	//UserPictureEntity userpicture =  userpicture.downloadFile(FileId);
-    	UserPictureEntity uploadedFileToRet=	userpictureservice.downloadFile(FileId);
+    	//UserPictureEntity uploadedFileToRet=	userpictureservice.downloadFile(FileId);
     	
     	
     			
         //return ResponseEntity.ok();
-    	 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                 .path("/downloadFile/")
-                 .path(uploadedFileToRet.getUserFilePath())
-                 .toUriString();
-		return uploadedFileToRet;
+    	// String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+          //       .path("/downloadFile/")
+            //     .path(uploadedFileToRet.getUserFilePath())
+              //   .toUriString();
+		//return uploadedFileToRet;
+		
+		
     	// return fileDownloadUri;
                 
     	//return userpictureservice.downloadFile(fileid,userid);
@@ -165,26 +149,9 @@ public class UserPictureController {
         //    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename= "+uploadedFileToRet.getFileName())
           //  .body(new ByteArrayResource(uploadedFileToRet.getFileData()));
 	
-	/*@GetMapping()
-	public String hello() {
-		return "uploader" ;
-	}
-	
-	@PostMapping("/upload")
-	public ResponseEntity<?> handleFileUpload( @RequestParam("file") MultipartFile file) {
 		
-		String filename = file.getOriginalFilename();
-		try
-		{
-		file.transferTo(new File("C:\\upload\\" +filename));
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-		return ResponseEntity.ok("File upload success");
-	} */
 	
-	
+}	
 	
 	
   
-}

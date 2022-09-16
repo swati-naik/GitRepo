@@ -1,24 +1,28 @@
 package com.numpyninja.lms.services;
 
+
+
+
+
+
+
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.numpyninja.lms.entity.User;
 import com.numpyninja.lms.entity.UserPictureEntity;
 import com.numpyninja.lms.repository.UserPictureRepository;
-import com.numpyninja.lms.repository.UserRepository;
+
+
+
 
 
 @Service
@@ -27,8 +31,8 @@ public class UserPictureService {
 	@Autowired
 	private UserPictureRepository userpicturerepo;
 	
-	@Autowired
-	private UserRepository userrepository;
+	//@Autowired
+	//private UserRepository userrepository;
 	
 	//private String uploadFolderpath = "/Users/Desktop/uploaded_" ;
 	//private String uploadFolderpath ="C:\\Users\\swati\\git\\LMS_2\\src\\main\\resources\\static\\logo";
@@ -54,15 +58,20 @@ public void uploadLocal(MultipartFile file) throws IOException{
 }
 	
 	
-	public void uploadtoDB(MultipartFile file ,@PathVariable String id) throws IOException{
+	public void uploadtoDB(MultipartFile file ) throws IOException{
 		
-		 User uid = userrepository.findById(id).get();
-		 System.out.println("uid is "+uid);
+		 //User uid = userrepository.findById(id).get();
+		// System.out.println("uid is "+uid);
 		
 		UserPictureEntity userpicture = new UserPictureEntity();
 		userpicture.setUserFileType(file.getContentType());
 		userpicture.setUserFilePath(uploadFolderpath + file.getOriginalFilename());
-		userpicture.setUser1(uid);
+		
+		//userpicture.setUsr(userId);
+		//userpicture.setUser(userId);
+		//String id = user1.getUserId();
+	//userpicture.setUserid(id);
+		//userpicture.setUser(user1.getUserId());
 		//userpicture.setUid(user1);
 		//userpicture.setUserFileId(1);;
 		//userpicture.setUser1(User);;
@@ -71,7 +80,7 @@ public void uploadLocal(MultipartFile file) throws IOException{
 			
 	}
 	
-	public UserPictureEntity downloadFile(String fileid) {
+	/* public UserPictureEntity downloadFile(String fileid) {
 		
 		UserPictureEntity userpicture1 = userpicturerepo.getById(fileid);
 		
@@ -89,7 +98,7 @@ public void uploadLocal(MultipartFile file) throws IOException{
 
 		UserPictureEntity userpicture = new UserPictureEntity();
 	 
-	  Boolean result =userpicturerepo.existsById(userid);
+	 // Boolean result =userpicturerepo.existsById(userid);
 	  if(result != null)
 	  {
  	
@@ -178,8 +187,8 @@ public void uploadLocal(MultipartFile file) throws IOException{
 					
 			return userpicture;
 				
-		} 
-*/
+		} */
+
 	 
 	 
 }

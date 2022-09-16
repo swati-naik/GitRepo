@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.numpyninja.lms.entity.UserPictureEntity;
 
 @Repository
-public interface UserPictureRepository extends JpaRepository<UserPictureEntity,String> {
+public interface UserPictureRepository extends JpaRepository<UserPictureEntity,Integer> {
 	
 	//public Optional<Assignment> findByAssignmentName(String assignmentName);
 	
