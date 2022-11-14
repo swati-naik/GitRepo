@@ -7,8 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,41 +30,29 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Table(name="TBL_LMS_USER_FILES")
+@Table(name = "tbl_lms_user_files")
 
 public class UserPictureEntity {
 
 	@Id
-	 @GeneratedValue (strategy = GenerationType.AUTO)
+	@GeneratedValue (strategy = GenerationType.AUTO)
 	@Column(name = "user_file_id")
 	Integer userFileId;
 
+	
 	@Column(name = "user_file_type")
 	private String userFileType; 
 	
-	//@Column(name = "user_id")
-	//private String userid;
-	
-  
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "user_id" , nullable = false)
      private User user;
    
-   
-    
-    /*@ManyToOne(optional=false)
-    @JoinColumn(name="user_id"  ,insertable =false ,updatable =false)
-    private User usr; */
-	
-	//@OneToMany(targetEntity = User.class ,cascade = CascadeType.ALL)
-	//@JoinColumn(name = "user_id" ,referencedColumnName = "userid")
-	
 	@Column(name = "user_file_path")
 	private String userFilePath;
 	
-	/*@Transient
+	@Transient
 	@Lob
-	private byte[] userFileData; */
+	private byte[] userFileData; 
 	
 	
 	//private Timestamp creationTime;

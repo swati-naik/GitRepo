@@ -1,19 +1,58 @@
 package com.numpyninja.lms.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.http.HttpHeaders;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+
+import org.hibernate.engine.jdbc.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
 
+import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
+import com.numpyninja.lms.entity.User;
 import com.numpyninja.lms.entity.UserPictureEntity;
+import com.numpyninja.lms.playload.FileResponse;
+import com.numpyninja.lms.playload.MessageResponse;
+import com.numpyninja.lms.playload.ResponseData;
 import com.numpyninja.lms.repository.UserPictureRepository;
 import com.numpyninja.lms.services.UserPictureService;
+
+import io.github.classgraph.Resource;
+import javassist.expr.NewArray;
 
 @RestController
 @RequestMapping("/file")
@@ -21,136 +60,76 @@ public class UserPictureController {
 
 	@Autowired
 	private UserPictureService userpictureservice;
-	private Object ServletUriComponentBuilder;
 	
-	
-	private UserPictureRepository userpicturerepo;
-	
-	//@Value("${project.image}")
-	//String path = "C:\\Users\\swati\\git\\LMS_2\\src\\main\\resources\\static\\logo";
-	//UserPictureEntity userpicture = (UserPictureEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	
-	/*@PostMapping("/userpicture")
-
-	public ResponseEntity<FileResponse> fileUpload(UserPictureEntity userpicture 
-			,@RequestParam ("image") MultipartFile image ){
-		
-		String filename = null;
-		try 
-		{
-		 filename = this.userpictureservice.UploadImage(path, image);
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-			//return new ResponseEntity<>(new FileResponse(null,"image not uploaded"), HttpStatus.INTERNAL_SERVER_ERROR);
-			return new ResponseEntity<FileResponse>(new FileResponse(null,"img not upload"),HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		return new ResponseEntity<FileResponse>(new FileResponse(filename,"image uploaded"), HttpStatus.OK);
-		
-		
-		
-		
-	} 
-	
-	@GetMapping("/download/{id}")
-	public UserPictureEntity downloadFile(@PathVariable("UserPictureEntity") String Id) {
-		
-		return userpictureservice.downloadFile(Id);
-	} 
-	
-	*/
-	
-	
-	
-	
-
-    @PostMapping("/upload/local")
-    public void uploadLocal(@RequestParam("file")MultipartFile multipartFile ) throws IOException {
-
-    	//User user1 = userpicturerepo.findById(uid).get();
-    	userpictureservice.uploadLocal(multipartFile);
-
-    }
-    
-    
-    
-    
+	    
     @PostMapping("/userpicture")
-    public void uploadDB(@RequestParam("file")MultipartFile multipartFile) throws IOException
+    public ResponseEntity<String> uploadDB(@RequestParam("file")MultipartFile multipartFile,
+    		@RequestParam User Uid,
+    		@RequestParam String filetype) throws IOException
+    
     {
-          
-    userpictureservice.uploadtoDB(multipartFile);
-    	// userpictureservice.uploadtoDB(multipartFile);
-    }
+    	//String uploadFolderpath1 = new ClassPathResource("static/logo/").getFile().getAbsolutePath();     
+       String downloadUrl = " ";
+       userpictureservice.uploadtoDB(multipartFile,Uid,filetype);
+       downloadUrl= ServletUriComponentsBuilder.fromCurrentContextPath()
+		   .path("/logo/")
+		   .path(multipartFile.getOriginalFilename())
+		   .toUriString();  
+   
+       System.out.println("download url is "+downloadUrl);	   
+       return new ResponseEntity<String>(downloadUrl,HttpStatus.CREATED);
     
-    
-    
-    
-  /*  @GetMapping("/download/{id}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String id)
-    {
-        UploadedFile uploadedFileToRet =  fileUploadService.downloadFile(id);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(uploadedFileToRet.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename= "+uploadedFileToRet.getFileName())
-                .body(new ByteArrayResource(uploadedFileToRet.getFileData()));
-    }*/
   
-   // @GetMapping("/userpicture/{id}")
-    //public UserPictureEntity downloadFile(@PathVariable String FileId )
-    {
-    	
-    	//UserPictureEntity userpicture =  userpicture.downloadFile(FileId);
-    	//UserPictureEntity uploadedFileToRet=	userpictureservice.downloadFile(FileId);
-    	
-    	
-    			
-        //return ResponseEntity.ok();
-    	// String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-          //       .path("/downloadFile/")
-            //     .path(uploadedFileToRet.getUserFilePath())
-              //   .toUriString();
-		//return uploadedFileToRet;
-		
-		
-    	// return fileDownloadUri;
-                
-    	//return userpictureservice.downloadFile(fileid,userid);
-    //return userpictureservice.downloadFile(FileId);
-    } 
-    
-    
-   /* @PutMapping("/userpicture/{userID}")
-    public void updateFile(@RequestParam("file") MultipartFile multipartFile ,String userid) throws IOException
-    
-    {
-    	
-    	 userpictureservice.updateFile(multipartFile, userid);
-    	
     }
+    
+    
+     @GetMapping("/userpicture/{userid}")
+     public UrlResource downloadFile(@PathVariable User userid,
+    		@RequestParam String filetype) throws IOException
+     {
+      	UserPictureEntity downloadedfile =	userpictureservice.GetFile(userid,filetype);
+    	System.out.println(downloadedfile);  
+    	if(downloadedfile != null)
+    	 try {
+    		 
+    		      Path path = Paths.get(downloadedfile.getUserFilePath());
+    		      UrlResource resource = new UrlResource(path.toUri());
+    		      System.out.println(resource);
+    		 //returning image to front end
+    		      if(resource.exists())
+    		      {
+    		          return resource;
+    		      } else {
+    		 
+    		                 throw new FileNotFoundException("File not found ");
+    		 
+    		             }
+    		 
+    		         } catch (MalformedURLException ex) {
+    		 
+    		             throw new FileNotFoundException("File not found ");
+    		 
+    		         }
+    		return (UrlResource) ResponseEntity.ok();
+     }
+
+    
+    @PutMapping("/userpicture/{userid}")
+    public ResponseEntity<UserPictureEntity> update(HttpServletRequest request,@RequestParam("file") MultipartFile multipartFile ,@PathVariable User userid,@RequestParam(required=false,name="FileType") String FileType) throws IOException
+    {
+    	UserPictureEntity updatedPicture=this.userpictureservice.updateFile(multipartFile, userid, FileType);
+    	return ResponseEntity.ok(updatedPicture);
+    }
+       
 	
-    @DeleteMapping("/userpicture/{userID}")
-	public void DeleteFile(@PathVariable String userid) throws IOException
+  @DeleteMapping("/userpicture/{userid}")
+	public ResponseEntity<MessageResponse> Delete(@PathVariable User userid,@RequestParam String filetype ) throws IOException
 	{
-    	userpictureservice.DeleteFile(userid);
-	} */ 
-	
-	
-	
-    
-    
-    
-    
- // UserPictureEntity userpicture =  userpicture.downloadFile(id);
-    //return ResponseEntity.ok()
-      //      .contentType(MediaType.parseMediaType(uploadedFileToRet.getFileType()))
-        //    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename= "+uploadedFileToRet.getFileName())
-          //  .body(new ByteArrayResource(uploadedFileToRet.getFileData()));
-	
-		
-	
+     this.userpictureservice.DeleteFile(userid, filetype);
+     return new ResponseEntity<MessageResponse>(new MessageResponse("file deleted successfully",true) , HttpStatus.OK);
+	 
+	}
+
 }	
 	
 	

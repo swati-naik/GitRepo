@@ -1,6 +1,7 @@
 package com.numpyninja.lms;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,9 +17,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @Configuration
+@EnableAutoConfiguration
 @EnableJpaRepositories("com.numpyninja.lms.repository")
 
-@ComponentScan(basePackages = {"com.numpyninja.lms"})
+@ComponentScan(basePackages = {"com.numpyninja.lms","com.numpyninja.lms.controller","com.numpyninja.lms.services"})
 public class LmsServicesApplication {
 
     public static void main(String[] args) {
@@ -29,8 +31,7 @@ public class LmsServicesApplication {
     public Docket lmsApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.numpyninja.lms"))
-                .paths(PathSelectors.any())
+                 .paths(PathSelectors.any())
                 .build();
 
 
